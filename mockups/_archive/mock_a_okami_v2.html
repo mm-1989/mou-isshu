@@ -1,0 +1,1165 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>もう一首 — 大神世界観 v2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Yuji+Syuku&family=Klee+One:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --washi: #f1e6c9;
+        --washi-warm: #e9d8af;
+        --washi-deep: #d9c293;
+        --sumi: #1a0f0a;
+        --sumi-mid: #3a2a1c;
+        --shu: #d23a2c;          /* 朱 (vermillion) */
+        --shu-bright: #e23f2e;
+        --shu-deep: #8f1710;     /* 深朱 */
+        --gold: #c8a13c;
+        --gold-deep: #a78026;
+        --moss: #4f713b;
+        --moss-deep: #2f4d2b;
+        --indigo: #273f68;
+        --indigo-soft: #587294;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        font-family: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+        color: var(--sumi);
+        line-height: 1.7;
+        overflow-x: hidden;
+        background-color: var(--washi);
+        background-image:
+          radial-gradient(ellipse 50% 42% at 34% 11%, rgba(226, 63, 46, 0.14), transparent 63%),
+          radial-gradient(ellipse 80% 50% at 50% 0%, rgba(244, 230, 198, 0.6), transparent 65%),
+          radial-gradient(ellipse 45% 52% at 14% 80%, rgba(79, 113, 59, 0.16), transparent 65%),
+          radial-gradient(ellipse 50% 42% at 88% 48%, rgba(39, 63, 104, 0.11), transparent 67%),
+          radial-gradient(ellipse 90% 60% at 80% 100%, rgba(217, 194, 147, 0.5), transparent 70%),
+          radial-gradient(ellipse 60% 40% at 10% 80%, rgba(200, 161, 60, 0.12), transparent 60%);
+      }
+
+      /* === 和紙の質感 (繊維+染み) === */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.55;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.42  0 0 0 0 0.22  0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        z-index: 0;
+      }
+
+      /* === 太陽 (天照) — 背景の朱印 === */
+      .amaterasu {
+        position: fixed;
+        top: -150px;
+        left: 50%;
+        transform: translateX(-52%);
+        width: min(560px, 62vw);
+        height: min(560px, 62vw);
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.9;
+        filter: drop-shadow(0 0 46px rgba(210, 58, 44, 0.22));
+      }
+      .amaterasu .sun-core {
+        fill: var(--shu);
+      }
+      .amaterasu .sun-ring {
+        fill: none;
+        stroke: var(--shu-deep);
+        stroke-width: 2.2;
+        opacity: 0.55;
+      }
+      .amaterasu .sun-ray {
+        stroke: var(--shu);
+        stroke-width: 2.4;
+        opacity: 0.46;
+        stroke-linecap: round;
+      }
+      .story-silhouette {
+        position: fixed;
+        left: clamp(18px, 7vw, 120px);
+        bottom: 118px;
+        width: clamp(150px, 21vw, 250px);
+        height: auto;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.72;
+        filter: blur(0.1px);
+      }
+
+      /* === 山並みシルエット (下端) === */
+      .mountains {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 180px;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.62;
+      }
+
+      /* === 桜の花びらが舞う === */
+      .sakura-field {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .petal {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        opacity: 0.75;
+        animation: petalFall var(--fall, 16s) cubic-bezier(0.45, 0.02, 0.58, 1) infinite;
+      }
+      .petal svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.06));
+      }
+      @keyframes petalFall {
+        0% {
+          transform: translate3d(0, -22vh, 0) rotate(0deg);
+        }
+        24% {
+          transform: translate3d(calc(var(--drift, 40px) * -0.45), 22vh, 0) rotate(92deg);
+        }
+        52% {
+          transform: translate3d(var(--drift, 40px), 55vh, 0) rotate(210deg);
+        }
+        76% {
+          transform: translate3d(calc(var(--drift, 40px) * -0.8), 86vh, 0) rotate(295deg);
+        }
+        100% {
+          transform: translate3d(calc(var(--drift, 40px) * 0.35), 122vh, 0) rotate(390deg);
+        }
+      }
+      .petal.p1 { left: 12%; --fall: 13s; --drift: 62px; animation-delay: 0s;   width: 16px; height: 16px; }
+      .petal.p2 { left: 28%; --fall: 19s; --drift: 90px; animation-delay: 3s;   width: 22px; height: 22px; }
+      .petal.p3 { left: 44%; --fall: 12s; --drift: 38px; animation-delay: 1.5s; width: 14px; height: 14px; opacity: 0.55; }
+      .petal.p4 { left: 62%; --fall: 21s; --drift: 115px; animation-delay: 5s;   width: 26px; height: 26px; }
+      .petal.p5 { left: 78%; --fall: 15s; --drift: 70px; animation-delay: 2s;   width: 18px; height: 18px; }
+      .petal.p6 { left: 90%; --fall: 17s; --drift: 98px; animation-delay: 6s;   width: 20px; height: 20px; }
+      .petal.p7 { left: 6%;  --fall: 22s; --drift: 80px; animation-delay: 8s;   width: 14px; height: 14px; opacity: 0.5; }
+      .petal.p8 { left: 52%; --fall: 16s; --drift: 55px; animation-delay: 10s;  width: 24px; height: 24px; }
+      .petal.p9 { left: 36%; --fall: 24s; --drift: 122px; animation-delay: 7s; width: 13px; height: 13px; opacity: 0.48; }
+      .petal.p10 { left: 68%; --fall: 18s; --drift: 74px; animation-delay: 11s; width: 15px; height: 15px; opacity: 0.6; }
+
+      /* === メインコンテンツ === */
+      main {
+        position: relative;
+        max-width: 780px;
+        margin: 0 auto;
+        padding: 3.5rem 1.5rem 8rem;
+        z-index: 2;
+      }
+
+      /* === ロゴ === */
+      header.logo-area {
+        text-align: center;
+        margin-bottom: 1.2rem;
+        position: relative;
+      }
+      .logo-canvas {
+        position: relative;
+        display: inline-block;
+        padding: 1rem 2.3rem 0.6rem;
+      }
+      .logo-sun-bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, var(--shu) 0%, var(--shu) 55%, transparent 60%);
+        border-radius: 50%;
+        opacity: 0.22;
+        z-index: 0;
+        filter: blur(4px);
+      }
+      .logo-text {
+        position: relative;
+        z-index: 1;
+        width: min(440px, 86vw);
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 2px 0 rgba(255, 250, 232, 0.35));
+      }
+      .logo-brush path {
+        fill: none;
+        stroke: var(--sumi);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .logo-brush .main {
+        stroke-width: 12;
+      }
+      .logo-brush .thin {
+        stroke-width: 5.5;
+        opacity: 0.86;
+      }
+      .logo-brush .dry {
+        stroke-width: 2;
+        opacity: 0.38;
+      }
+      .logo-brush .shu-accent {
+        stroke: var(--shu-deep);
+        stroke-width: 4;
+        opacity: 0.78;
+      }
+      .logo-seal {
+        position: absolute;
+        top: 0.3rem;
+        right: -0.5rem;
+        width: 44px;
+        height: 44px;
+        background: var(--shu-bright);
+        color: var(--washi);
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        display: grid;
+        place-items: center;
+        transform: rotate(-10deg);
+        border-radius: 6px;
+        letter-spacing: 0.04em;
+        box-shadow: 0 0 0 2px rgba(143, 23, 16, 0.35), 0 3px 6px rgba(0, 0, 0, 0.12);
+        z-index: 2;
+      }
+      .subtitle {
+        text-align: center;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.82rem;
+        color: var(--sumi-mid);
+        letter-spacing: 0.32em;
+        margin: 0.5rem 0 0;
+        opacity: 0.78;
+      }
+
+      /* === 墨筆風区切り === */
+      .brush-divider {
+        display: block;
+        width: 310px;
+        height: 34px;
+        margin: 1.25rem auto 2.2rem;
+        overflow: visible;
+      }
+
+      /* === ナビ === */
+      nav.tabs {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-bottom: 2.4rem;
+      }
+      nav.tabs a {
+        font-family: 'Shippori Mincho', serif;
+        font-size: 1rem;
+        color: var(--sumi-mid);
+        text-decoration: none;
+        letter-spacing: 0.32em;
+        padding: 0.5rem 0.4rem;
+        position: relative;
+        transition: color 0.2s, letter-spacing 0.25s;
+        font-weight: 500;
+      }
+      nav.tabs a::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--shu-bright), transparent);
+        transform: translateX(-50%);
+        transition: width 0.25s;
+      }
+      nav.tabs a:hover {
+        color: var(--sumi);
+        letter-spacing: 0.4em;
+      }
+      nav.tabs a.active {
+        color: var(--sumi);
+      }
+      nav.tabs a.active::after {
+        width: 36px;
+      }
+
+      /* === 入力ブロック (巻物風) === */
+      .compose-block {
+        position: relative;
+        background:
+          radial-gradient(ellipse at 8% 16%, rgba(79, 113, 59, 0.09), transparent 36%),
+          radial-gradient(ellipse at 94% 72%, rgba(39, 63, 104, 0.08), transparent 42%),
+          linear-gradient(180deg, rgba(255, 250, 232, 0.92) 0%, rgba(245, 232, 200, 0.88) 100%);
+        border-top: 1px solid var(--gold);
+        border-bottom: 1px solid var(--gold);
+        padding: 1.8rem 2rem 1.6rem;
+        margin-bottom: 2.8rem;
+        box-shadow: 0 0 0 1px rgba(168, 130, 38, 0.12);
+      }
+      .compose-block::before,
+      .compose-block::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background:
+          linear-gradient(90deg, transparent 0%, rgba(200, 161, 60, 0.85) 14%, rgba(255,255,255,0.1) 52%, rgba(167, 128, 38, 0.75) 88%, transparent 100%);
+        opacity: 0.5;
+      }
+      .compose-block::before { top: 0; }
+      .compose-block::after { bottom: 0; transform: scaleY(-1); }
+      .compose-block .scroll-rod {
+        position: absolute;
+        left: -10px;
+        right: -10px;
+        top: -8px;
+        height: 7px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, transparent, var(--gold-deep), #f0cf79 45%, var(--gold-deep), transparent);
+        box-shadow: 0 4px 8px rgba(60, 40, 20, 0.14);
+        pointer-events: none;
+      }
+
+      .field-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.78rem;
+        color: var(--sumi-mid);
+        letter-spacing: 0.32em;
+        margin-bottom: 0.5rem;
+      }
+      .field-label::before {
+        content: '';
+        display: inline-block;
+        width: 14px;
+        height: 1px;
+        background: var(--moss);
+      }
+      .input-area input {
+        width: 100%;
+        padding: 0.65rem 0.2rem;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 1.05rem;
+        background: transparent;
+        border: none;
+        border-bottom: 1.5px solid var(--sumi-mid);
+        color: var(--sumi);
+        transition: border-color 0.2s;
+      }
+      .input-area input::placeholder {
+        color: var(--sumi-mid);
+        opacity: 0.45;
+        font-style: italic;
+      }
+      .input-area input:focus {
+        outline: none;
+        border-bottom-color: var(--indigo);
+      }
+
+      .chips-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.78rem;
+        color: var(--sumi-mid);
+        letter-spacing: 0.32em;
+        margin: 1.3rem 0 0.65rem;
+      }
+      .chips-label::before {
+        content: '';
+        display: inline-block;
+        width: 14px;
+        height: 1px;
+        background: var(--moss);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .chip {
+        position: relative;
+        padding: 0.42rem 1rem;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.86rem;
+        background: rgba(255, 250, 232, 0.7);
+        border: 1px solid var(--sumi-mid);
+        border-radius: 1px;
+        color: var(--sumi);
+        cursor: pointer;
+        transition: all 0.18s ease;
+        letter-spacing: 0.08em;
+        overflow: hidden;
+      }
+      .chip::after {
+        content: '';
+        position: absolute;
+        inset: 50% auto auto 50%;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(39, 63, 104, 0.22);
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .chip:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+      }
+      .chip:hover::after,
+      .chip:focus-visible::after {
+        animation: inkRipple 0.72s ease-out;
+      }
+      .chip.selected {
+        background: linear-gradient(135deg, var(--sumi), var(--moss-deep));
+        color: var(--washi);
+        border-color: var(--sumi);
+        padding-left: 1.7rem;
+      }
+      .chip.selected::before {
+        content: '✓';
+        position: absolute;
+        left: 0.7rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.78rem;
+        color: var(--shu);
+        font-weight: 700;
+      }
+      .chip.dismissed {
+        opacity: 0.32;
+        text-decoration: line-through;
+        text-decoration-color: var(--shu);
+      }
+      @keyframes inkRipple {
+        0% { transform: translate(-50%, -50%) scale(0); opacity: 0.45; filter: blur(0); }
+        60% { opacity: 0.23; }
+        100% { transform: translate(-50%, -50%) scale(18); opacity: 0; filter: blur(2px); }
+      }
+
+      /* === 詠むボタン (筆字) === */
+      .compose-button-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3.2rem;
+        position: relative;
+      }
+      .compose-button {
+        position: relative;
+        min-width: 178px;
+        min-height: 68px;
+        padding: 0.7rem 3.25rem;
+        font-family: 'Yuji Syuku', 'Shippori Mincho', serif;
+        color: var(--washi);
+        background:
+          radial-gradient(circle at 16% 50%, rgba(79, 113, 59, 0.22), transparent 36%),
+          linear-gradient(135deg, var(--sumi) 0%, #21170f 100%);
+        border: none;
+        border-radius: 1px;
+        cursor: pointer;
+        transition: transform 0.28s ease, background 0.3s;
+        overflow: visible;
+      }
+      .compose-button::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border: 1.5px solid var(--shu-bright);
+        border-radius: 1px;
+        opacity: 0;
+        transition: opacity 0.3s, top 0.3s, left 0.3s, right 0.3s, bottom 0.3s;
+      }
+      .compose-button::after {
+        content: '';
+        position: absolute;
+        inset: -18px -26px;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(26, 15, 10, 0.25) 0 16%, rgba(26, 15, 10, 0.12) 26%, transparent 58%);
+        border-radius: 50%;
+        filter: blur(10px);
+        opacity: 0;
+        transform: scale(0.64);
+        transition: opacity 0.35s ease, transform 0.5s ease;
+      }
+      .compose-button:hover {
+        transform: translateY(-1px);
+        background:
+          radial-gradient(circle at 72% 50%, rgba(226, 63, 46, 0.24), transparent 40%),
+          linear-gradient(135deg, var(--sumi) 0%, var(--shu-deep) 100%);
+      }
+      .compose-button:hover::before {
+        opacity: 0.7;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+      }
+      .compose-button:hover::after {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+      .yomu-brush {
+        position: relative;
+        z-index: 1;
+        display: block;
+        width: 92px;
+        height: 42px;
+        overflow: visible;
+      }
+      .yomu-brush path {
+        fill: none;
+        stroke: var(--washi);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.22));
+      }
+      .yomu-brush .bold { stroke-width: 7.5; }
+      .yomu-brush .thin { stroke-width: 3.2; opacity: 0.82; }
+      .yomu-brush .red { stroke: #f07159; stroke-width: 2.4; opacity: 0.85; }
+      .compose-button .ink-drop {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        width: 14px;
+        height: 14px;
+        background: var(--shu-bright);
+        border-radius: 50%;
+        opacity: 0.85;
+        box-shadow: 0 0 8px rgba(210, 58, 44, 0.4);
+      }
+
+      /* === 歌カード (巻物 / 短冊) === */
+      .tanka-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+      }
+      .tanka-card {
+        position: relative;
+        background:
+          radial-gradient(ellipse at 95% 10%, rgba(226, 63, 46, 0.06), transparent 38%),
+          radial-gradient(ellipse at 12% 82%, rgba(79, 113, 59, 0.08), transparent 45%),
+          linear-gradient(170deg, rgba(255, 250, 232, 0.94) 0%, rgba(241, 230, 201, 0.9) 100%);
+        padding: 2.55rem 2.2rem 1.6rem 3.4rem;
+        border: 1px solid var(--gold);
+        border-left: 3px solid var(--sumi);
+        box-shadow:
+          0 2px 6px rgba(60, 40, 20, 0.1),
+          inset 0 0 30px rgba(168, 130, 38, 0.08);
+        animation: scrollUnroll 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      .tanka-card:nth-child(2) { animation-delay: 0.12s; }
+      .tanka-card:nth-child(3) { animation-delay: 0.24s; }
+      .tanka-card::before {
+        content: '';
+        position: absolute;
+        left: -10px;
+        right: -10px;
+        top: 0.85rem;
+        height: 7px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, transparent 0%, var(--gold-deep) 12%, #e6c265 50%, var(--gold-deep) 88%, transparent 100%);
+        box-shadow: 0 4px 7px rgba(60, 40, 20, 0.16);
+      }
+      .tanka-card::after {
+        content: '';
+        position: absolute;
+        left: 0.65rem;
+        top: 0.9rem;
+        bottom: 0.9rem;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(39, 63, 104, 0.48), transparent);
+        opacity: 0.65;
+      }
+      @keyframes scrollUnroll {
+        from {
+          opacity: 0;
+          transform: translateY(12px) scaleY(0.92);
+          transform-origin: top;
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scaleY(1);
+        }
+      }
+
+      /* 左の縦書き「第○首」 */
+      .tanka-no {
+        position: absolute;
+        top: 1.9rem;
+        left: 1rem;
+        writing-mode: vertical-rl;
+        font-family: 'Yuji Syuku', serif;
+        font-size: 0.82rem;
+        letter-spacing: 0.45em;
+        color: var(--sumi-mid);
+        height: calc(100% - 3rem);
+        opacity: 0.7;
+      }
+
+      /* 右上の朱印 (大神風の四角印) */
+      .tanka-seal {
+        position: absolute;
+        top: 1.3rem;
+        right: 1.4rem;
+        width: 46px;
+        height: 46px;
+        background: var(--shu-bright);
+        color: var(--washi);
+        display: grid;
+        place-items: center;
+        font-family: 'Yuji Syuku', 'Shippori Mincho', serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        border-radius: 6px;
+        transform: rotate(-8deg);
+        box-shadow:
+          0 0 0 2px rgba(143, 23, 16, 0.38),
+          0 4px 8px rgba(0, 0, 0, 0.15);
+        filter: contrast(1.14) saturate(1.15);
+      }
+
+      .tanka-lines {
+        font-family: 'Yuji Syuku', 'Klee One', 'Shippori Mincho', serif;
+        font-size: 1.4rem;
+        line-height: 2.15;
+        letter-spacing: 0.08em;
+        margin: 0;
+        color: var(--sumi);
+      }
+      .tanka-line {
+        display: block;
+        position: relative;
+        padding-left: 1.05rem;
+      }
+      .tanka-line::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 1em;
+        width: 0.36rem;
+        height: 0.36rem;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 36% 34%, rgba(26, 15, 10, 0.92) 0 30%, rgba(26, 15, 10, 0.46) 56%, transparent 72%);
+        filter: blur(0.15px);
+        opacity: 0.42;
+      }
+      .tanka-line:nth-child(3) {
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
+        padding-left: 0.5rem;
+      }
+      .tanka-line:nth-child(3)::before {
+        background:
+          radial-gradient(circle at 36% 34%, rgba(26, 15, 10, 0.92) 0 30%, rgba(26, 15, 10, 0.46) 56%, transparent 72%);
+      }
+      .kire-stroke {
+        position: absolute;
+        left: -2.2rem;
+        top: 50%;
+        width: 2rem;
+        height: 0.65rem;
+        transform: translateY(-50%);
+        overflow: visible;
+      }
+
+      .tanka-foot {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--gold);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .tanka-tags {
+        display: flex;
+        gap: 0.55rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .tag-pill {
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.72rem;
+        color: var(--indigo);
+        letter-spacing: 0.2em;
+        padding: 0.2rem 0.55rem;
+        background: rgba(245, 232, 200, 0.5);
+        border: 1px solid var(--sumi-mid);
+        border-radius: 1px;
+      }
+      .tag-pill.season {
+        color: var(--shu-deep);
+        border-color: var(--shu-bright);
+        background: rgba(226, 63, 46, 0.07);
+      }
+      .tanka-meta-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .tanka-time {
+        font-size: 0.72rem;
+        color: var(--sumi-mid);
+        letter-spacing: 0.12em;
+        font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+        opacity: 0.7;
+      }
+      .fav-button {
+        position: relative;
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        cursor: pointer;
+        color: var(--sumi-mid);
+        opacity: 0.4;
+        padding: 0;
+        transition: opacity 0.2s, transform 0.2s, color 0.2s;
+        line-height: 1;
+      }
+      .fav-button::after {
+        content: '';
+        position: absolute;
+        inset: 50% auto auto 50%;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(226, 63, 46, 0.34), rgba(226, 63, 46, 0.1) 44%, transparent 72%);
+        transform: translate(-50%, -50%) scale(0.3);
+        filter: blur(3px);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .fav-button:hover {
+        transform: scale(1.18);
+        opacity: 0.8;
+      }
+      .fav-button.active {
+        color: var(--shu-bright);
+        opacity: 1;
+        animation: sealStamp 0.55s ease;
+      }
+      .fav-button.active::after {
+        animation: vermillionBleed 0.85s ease-out both;
+      }
+      @keyframes sealStamp {
+        0% { transform: scale(1.8); }
+        45% { transform: scale(0.82); }
+        100% { transform: scale(1); }
+      }
+      @keyframes vermillionBleed {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.25); }
+        36% { opacity: 0.74; }
+        100% { opacity: 0; transform: translate(-50%, -50%) scale(1.9); filter: blur(8px); }
+      }
+
+      /* === フッター === */
+      footer {
+        margin-top: 4.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--gold);
+        text-align: center;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.78rem;
+        color: var(--sumi-mid);
+        letter-spacing: 0.3em;
+        opacity: 0.7;
+      }
+      .season-glyphs {
+        display: flex;
+        justify-content: center;
+        gap: 1.8rem;
+        margin-bottom: 1rem;
+      }
+      .season-glyphs svg {
+        width: 24px;
+        height: 24px;
+        transition: transform 0.25s;
+      }
+      .season-glyphs svg:hover {
+        transform: translateY(-3px) scale(1.1);
+      }
+
+      /* 狼の足跡 (大神オマージュ) */
+      .paw-print {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        vertical-align: middle;
+        margin: 0 0.5rem;
+        opacity: 0.5;
+      }
+
+      @media (max-width: 768px) {
+        .amaterasu {
+          width: 380px;
+          height: 380px;
+          top: -118px;
+          transform: translateX(-58%);
+          opacity: 0.76;
+        }
+        .story-silhouette {
+          width: 138px;
+          left: 12px;
+          bottom: 96px;
+          opacity: 0.55;
+        }
+        .petal.p7,
+        .petal.p9,
+        .petal.p10 {
+          display: none;
+        }
+        .petal { opacity: 0.62; }
+      }
+
+      @media (max-width: 600px) {
+        main { padding: 2.5rem 1rem 5rem; }
+        .amaterasu { width: 300px; height: 300px; top: -86px; }
+        .logo-canvas { padding-inline: 0.6rem; }
+        .logo-text { width: min(340px, 92vw); }
+        .tanka-card { padding: 1.7rem 1.4rem 1.3rem 2.6rem; }
+        .tanka-lines { font-size: 1.2rem; }
+        .compose-button { min-width: 150px; min-height: 60px; padding: 0.55rem 2.3rem; }
+        .yomu-brush { width: 78px; height: 36px; }
+        .brush-divider { width: 250px; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- === 天照 (太陽) === -->
+    <svg class="amaterasu" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g>
+        <!-- 外周の細い輪 -->
+        <circle cx="240" cy="240" r="180" class="sun-ring" />
+        <circle cx="240" cy="240" r="160" class="sun-ring" opacity="0.35" />
+        <!-- 光線 (8 方向) -->
+        <g class="sun-rays">
+          <line x1="240" y1="40" x2="240" y2="80" class="sun-ray" />
+          <line x1="240" y1="400" x2="240" y2="440" class="sun-ray" />
+          <line x1="40" y1="240" x2="80" y2="240" class="sun-ray" />
+          <line x1="400" y1="240" x2="440" y2="240" class="sun-ray" />
+          <line x1="100" y1="100" x2="128" y2="128" class="sun-ray" />
+          <line x1="352" y1="352" x2="380" y2="380" class="sun-ray" />
+          <line x1="380" y1="100" x2="352" y2="128" class="sun-ray" />
+          <line x1="128" y1="352" x2="100" y2="380" class="sun-ray" />
+        </g>
+        <g opacity="0.38" fill="none" stroke="#8f1710" stroke-linecap="round">
+          <path d="M92,238 C132,210 156,216 190,194" stroke-width="5" />
+          <path d="M296,112 C318,148 352,152 376,184" stroke-width="4" />
+          <path d="M276,384 C242,350 216,356 186,328" stroke-width="3" />
+        </g>
+        <!-- 太陽本体 -->
+        <circle cx="240" cy="240" r="140" class="sun-core" opacity="0.92" />
+        <circle cx="240" cy="240" r="138" fill="none" stroke="#9b1f15" stroke-width="2" opacity="0.5" />
+        <!-- 中心の三つ巴模様 (大神風) -->
+        <g transform="translate(240, 240)" opacity="0.5">
+          <path d="M0,-60 Q20,-40 30,-15 Q15,-25 0,-20 Q-10,-30 0,-60 Z" fill="#9b1f15" />
+          <g transform="rotate(120)">
+            <path d="M0,-60 Q20,-40 30,-15 Q15,-25 0,-20 Q-10,-30 0,-60 Z" fill="#9b1f15" />
+          </g>
+          <g transform="rotate(240)">
+            <path d="M0,-60 Q20,-40 30,-15 Q15,-25 0,-20 Q-10,-30 0,-60 Z" fill="#9b1f15" />
+          </g>
+        </g>
+      </g>
+    </svg>
+
+    <!-- === 鳥居と白狼の遠景 === -->
+    <svg class="story-silhouette" viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <filter id="distantInk" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="0.35" />
+        </filter>
+      </defs>
+      <g filter="url(#distantInk)">
+        <path d="M14,162 C54,147 86,151 118,136 C154,119 190,134 246,111 L260,180 L0,180 Z" fill="#273f68" opacity="0.24" />
+        <g fill="#1a0f0a" opacity="0.62">
+          <rect x="42" y="74" width="10" height="80" rx="1" />
+          <rect x="99" y="72" width="10" height="82" rx="1" />
+          <path d="M27,58 C62,50 91,51 124,60 L119,70 C88,64 62,64 31,70 Z" />
+          <rect x="38" y="78" width="78" height="8" rx="1" />
+          <rect x="48" y="87" width="8" height="18" />
+          <rect x="95" y="87" width="8" height="18" />
+        </g>
+        <g fill="#f8f2dd" opacity="0.78">
+          <path d="M158,140 C169,130 185,128 198,134 C207,124 220,120 233,126 C220,128 211,135 209,145 C195,139 181,139 169,148 Z" />
+          <path d="M229,126 C238,121 244,113 247,104 C249,116 246,125 237,132 Z" />
+          <path d="M160,139 C151,136 145,139 141,146 C150,144 156,145 163,150 Z" />
+          <circle cx="190" cy="131" r="2.2" fill="#e23f2e" opacity="0.9" />
+        </g>
+        <path d="M155,150 C176,146 199,149 222,143" stroke="#1a0f0a" stroke-width="2" stroke-linecap="round" opacity="0.25" />
+      </g>
+    </svg>
+
+    <!-- === 山並み === -->
+    <svg class="mountains" viewBox="0 0 1200 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="mtnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#3a5670" stop-opacity="0.0" />
+          <stop offset="60%" stop-color="#3a5670" stop-opacity="0.4" />
+          <stop offset="100%" stop-color="#1a0f0a" stop-opacity="0.65" />
+        </linearGradient>
+        <linearGradient id="mtnFrontGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#1a0f0a" stop-opacity="0.5" />
+          <stop offset="100%" stop-color="#1a0f0a" stop-opacity="0.85" />
+        </linearGradient>
+      </defs>
+      <!-- 奥の山 -->
+      <path d="M0,180 L0,100 L120,60 L240,85 L380,40 L500,75 L640,50 L780,90 L920,55 L1080,80 L1200,65 L1200,180 Z" fill="url(#mtnGrad)" />
+      <!-- 手前の山 -->
+      <path d="M0,180 L0,140 L100,110 L220,135 L360,95 L500,125 L660,100 L820,130 L980,105 L1120,128 L1200,115 L1200,180 Z" fill="url(#mtnFrontGrad)" />
+    </svg>
+
+    <!-- === 桜の花びら === -->
+    <div class="sakura-field" aria-hidden="true">
+      <div class="petal p1"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#e88a8a" opacity="0.85"/></svg></div>
+      <div class="petal p2"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#f0a5a5" opacity="0.85"/></svg></div>
+      <div class="petal p3"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#e88a8a" opacity="0.8"/></svg></div>
+      <div class="petal p4"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#f5b8b8" opacity="0.8"/></svg></div>
+      <div class="petal p5"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#e88a8a" opacity="0.85"/></svg></div>
+      <div class="petal p6"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#f0a5a5" opacity="0.85"/></svg></div>
+      <div class="petal p7"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#e88a8a" opacity="0.7"/></svg></div>
+      <div class="petal p8"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#f5b8b8" opacity="0.8"/></svg></div>
+      <div class="petal p9"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#f0a5a5" opacity="0.78"/></svg></div>
+      <div class="petal p10"><svg viewBox="0 0 24 24"><path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#e88a8a" opacity="0.74"/></svg></div>
+    </div>
+
+    <main>
+      <header class="logo-area">
+        <div class="logo-canvas">
+          <div class="logo-sun-bg"></div>
+          <svg class="logo-text logo-brush" viewBox="0 0 440 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="もう一首">
+            <path class="main" d="M34,44 C58,33 83,35 98,50 C113,67 105,91 83,96 C63,100 49,89 50,73 C51,58 66,50 84,52" />
+            <path class="thin" d="M42,32 C52,25 66,24 77,29" />
+            <path class="dry" d="M56,105 C71,111 91,107 105,96" />
+            <path class="main" d="M125,46 C150,37 177,39 190,55 C204,73 190,98 164,98 C145,98 134,86 139,69 C143,55 160,51 176,56" />
+            <path class="thin" d="M132,31 C145,25 161,25 174,31" />
+            <path class="dry" d="M152,106 C166,111 184,106 195,95" />
+            <path class="main" d="M219,67 C263,54 312,53 357,66" />
+            <path class="thin" d="M232,78 C270,70 316,71 348,80" />
+            <path class="dry" d="M242,91 C277,86 309,87 337,94" />
+            <path class="main" d="M382,28 C366,51 366,78 386,103" />
+            <path class="main" d="M351,49 C376,44 403,45 424,53" />
+            <path class="thin" d="M360,70 C381,64 405,66 421,74" />
+            <path class="thin" d="M363,92 C385,84 407,88 424,99" />
+            <path class="shu-accent" d="M366,114 C384,122 405,120 420,110" />
+          </svg>
+          <span class="logo-seal">詠</span>
+        </div>
+        <p class="subtitle">な ん ち ゃ っ て A I 短 歌 ジ ェ ネ レ ー タ ー</p>
+      </header>
+
+      <!-- 墨筆区切り (太め、 滴付き) -->
+      <svg class="brush-divider" viewBox="0 0 310 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="brushGradOk" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1a0f0a" stop-opacity="0" />
+            <stop offset="15%" stop-color="#1a0f0a" stop-opacity="0.55" />
+            <stop offset="50%" stop-color="#1a0f0a" stop-opacity="0.95" />
+            <stop offset="85%" stop-color="#1a0f0a" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#1a0f0a" stop-opacity="0" />
+          </linearGradient>
+          <filter id="dividerBleed" x="-8%" y="-60%" width="116%" height="220%">
+            <feGaussianBlur stdDeviation="1.15" />
+          </filter>
+        </defs>
+        <path d="M8,17 C44,7 80,12 116,16 C161,21 196,7 250,15 C273,18 294,16 305,12" stroke="url(#brushGradOk)" stroke-width="8" fill="none" stroke-linecap="round" filter="url(#dividerBleed)" opacity="0.36" />
+        <path d="M5,16 C43,6 78,11 118,16 C162,22 199,7 250,15 C274,18 294,16 306,11" stroke="url(#brushGradOk)" stroke-width="5.8" fill="none" stroke-linecap="round" />
+        <path d="M31,22 C58,26 86,19 111,21" stroke="url(#brushGradOk)" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.5" />
+        <path d="M182,11 C203,5 221,8 241,11" stroke="url(#brushGradOk)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.42" />
+        <circle cx="142" cy="17" r="3.6" fill="#e23f2e" opacity="0.82" />
+        <circle cx="258" cy="22" r="1.8" fill="#1a0f0a" opacity="0.55" />
+        <circle cx="278" cy="9" r="1.2" fill="#1a0f0a" opacity="0.36" />
+        <circle cx="64" cy="10" r="1" fill="#1a0f0a" opacity="0.32" />
+      </svg>
+
+      <nav class="tabs">
+        <a href="#" class="active">詠 む</a>
+        <a href="#">歌 集</a>
+      </nav>
+
+      <section class="compose-block">
+        <span class="scroll-rod" aria-hidden="true"></span>
+        <label class="field-label">お 題 ・ 心 の 景</label>
+        <div class="input-area">
+          <input
+            type="text"
+            placeholder="例: 春の別れ、 コーヒー、 終電のホーム..."
+            value="コーヒー 寂しい"
+          />
+        </div>
+
+        <span class="chips-label">推 さ れ た タ グ</span>
+        <div class="chips">
+          <button class="chip selected">コーヒー</button>
+          <button class="chip selected">寂しさ</button>
+          <button class="chip">飲み物</button>
+          <button class="chip dismissed">楽しい</button>
+        </div>
+      </section>
+
+      <div class="compose-button-row">
+        <button class="compose-button">
+          <svg class="yomu-brush" viewBox="0 0 92 42" xmlns="http://www.w3.org/2000/svg" aria-label="詠む" role="img">
+            <path class="bold" d="M13,11 C23,7 34,8 42,14" />
+            <path class="thin" d="M17,19 C27,16 36,18 43,23" />
+            <path class="bold" d="M20,30 C29,24 39,25 47,33" />
+            <path class="bold" d="M61,9 C51,20 51,31 62,38" />
+            <path class="thin" d="M58,19 C70,15 81,17 87,24" />
+            <path class="red" d="M65,33 C73,37 82,35 88,30" />
+          </svg>
+          <span class="ink-drop"></span>
+        </button>
+      </div>
+
+      <div class="tanka-list">
+        <article class="tanka-card">
+          <span class="tanka-no">第 一 首</span>
+          <span class="tanka-seal">詠</span>
+          <p class="tanka-lines">
+            <span class="tanka-line">コーヒーを</span>
+            <span class="tanka-line">一人で飲んで</span>
+            <span class="tanka-line"><svg class="kire-stroke" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2,8 C10,2 20,5 27,7 C32,9 36,8 39,5" fill="none" stroke="#e23f2e" stroke-width="3.2" stroke-linecap="round" opacity="0.82"/><path d="M5,10 C14,8 21,10 31,11" fill="none" stroke="#8f1710" stroke-width="1.1" stroke-linecap="round" opacity="0.48"/></svg>寂しさの</span>
+            <span class="tanka-line">街灯のもと</span>
+            <span class="tanka-line">切なさ残る</span>
+          </p>
+          <div class="tanka-foot">
+            <div class="tanka-tags">
+              <span class="tag-pill">コーヒー</span>
+              <span class="tag-pill">寂しさ</span>
+            </div>
+            <div class="tanka-meta-right">
+              <span class="tanka-time">01:23:45</span>
+              <button class="fav-button active" title="お気に入りに追加">♥</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="tanka-card">
+          <span class="tanka-no">第 二 首</span>
+          <span class="tanka-seal">詠</span>
+          <p class="tanka-lines">
+            <span class="tanka-line">春風に</span>
+            <span class="tanka-line">写真を見つめて</span>
+            <span class="tanka-line"><svg class="kire-stroke" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2,8 C10,2 20,5 27,7 C32,9 36,8 39,5" fill="none" stroke="#e23f2e" stroke-width="3.2" stroke-linecap="round" opacity="0.82"/><path d="M5,10 C14,8 21,10 31,11" fill="none" stroke="#8f1710" stroke-width="1.1" stroke-linecap="round" opacity="0.48"/></svg>懐かしさ</span>
+            <span class="tanka-line">コンビニに立つ</span>
+            <span class="tanka-line">君の面影</span>
+          </p>
+          <div class="tanka-foot">
+            <div class="tanka-tags">
+              <span class="tag-pill season">春</span>
+              <span class="tag-pill">写真</span>
+              <span class="tag-pill">君</span>
+            </div>
+            <div class="tanka-meta-right">
+              <span class="tanka-time">01:24:12</span>
+              <button class="fav-button" title="お気に入りに追加">♡</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="tanka-card">
+          <span class="tanka-no">第 三 首</span>
+          <span class="tanka-seal">詠</span>
+          <p class="tanka-lines">
+            <span class="tanka-line">終電を</span>
+            <span class="tanka-line">一人で待って</span>
+            <span class="tanka-line"><svg class="kire-stroke" viewBox="0 0 40 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2,8 C10,2 20,5 27,7 C32,9 36,8 39,5" fill="none" stroke="#e23f2e" stroke-width="3.2" stroke-linecap="round" opacity="0.82"/><path d="M5,10 C14,8 21,10 31,11" fill="none" stroke="#8f1710" stroke-width="1.1" stroke-linecap="round" opacity="0.48"/></svg>うれしさが</span>
+            <span class="tanka-line">駅のホームに</span>
+            <span class="tanka-line">静かに揺れる</span>
+          </p>
+          <div class="tanka-foot">
+            <div class="tanka-tags">
+              <span class="tag-pill">終電</span>
+              <span class="tag-pill">駅</span>
+              <span class="tag-pill">うれしさ</span>
+            </div>
+            <div class="tanka-meta-right">
+              <span class="tanka-time">01:24:58</span>
+              <button class="fav-button" title="お気に入りに追加">♡</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <footer>
+        <div class="season-glyphs">
+          <!-- 春 = 桜 -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="春">
+            <path d="M12,2 Q9,6 6,8 Q9,11 12,16 Q15,11 18,8 Q15,6 12,2 Z" fill="#e88a8a" opacity="0.9"/>
+            <path d="M6,12 Q3,16 0,18 M18,12 Q21,16 24,18" stroke="#d23a2c" stroke-width="0.8" fill="none" opacity="0.5"/>
+          </svg>
+          <!-- 夏 = 蝉 -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="夏">
+            <ellipse cx="12" cy="14" rx="3.5" ry="6" fill="#1a0f0a" opacity="0.7"/>
+            <path d="M12,8 Q5,9 3,16 M12,8 Q19,9 21,16" stroke="#1a0f0a" stroke-width="0.9" fill="none" opacity="0.6"/>
+            <circle cx="11" cy="10" r="0.6" fill="#d23a2c"/>
+            <circle cx="13" cy="10" r="0.6" fill="#d23a2c"/>
+          </svg>
+          <!-- 秋 = もみじ -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="秋">
+            <path d="M12,3 L13.5,8 L18,7 L15,11 L19,13 L14,14 L15,19 L12,16 L9,19 L10,14 L5,13 L9,11 L6,7 L10.5,8 Z" fill="#d23a2c" opacity="0.85"/>
+            <line x1="12" y1="16" x2="12" y2="21" stroke="#9b1f15" stroke-width="0.8" opacity="0.6"/>
+          </svg>
+          <!-- 冬 = 雪結晶 -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="冬">
+            <g stroke="#3a5670" stroke-width="1.1" stroke-linecap="round" opacity="0.8">
+              <line x1="12" y1="3" x2="12" y2="21"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="5.6" y1="5.6" x2="18.4" y2="18.4"/>
+              <line x1="18.4" y1="5.6" x2="5.6" y2="18.4"/>
+              <path d="M12,7 L10.5,5.5 M12,7 L13.5,5.5" stroke-width="0.9"/>
+              <path d="M12,17 L10.5,18.5 M12,17 L13.5,18.5" stroke-width="0.9"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          も う 一 首
+          <!-- 狼の足跡 (大神オマージュ) -->
+          <svg class="paw-print" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="狼">
+            <ellipse cx="12" cy="15" rx="4" ry="4.5" fill="#1a0f0a"/>
+            <ellipse cx="6" cy="9" rx="1.8" ry="2.3" fill="#1a0f0a"/>
+            <ellipse cx="10" cy="6" rx="1.8" ry="2.3" fill="#1a0f0a"/>
+            <ellipse cx="14" cy="6" rx="1.8" ry="2.3" fill="#1a0f0a"/>
+            <ellipse cx="18" cy="9" rx="1.8" ry="2.3" fill="#1a0f0a"/>
+          </svg>
+          一 句 一 会
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

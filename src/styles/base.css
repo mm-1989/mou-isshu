@@ -1,0 +1,44 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  background: linear-gradient(180deg, #faf7f1 0%, #f3ece0 100%);
+  color: #2a2520;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 5rem;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin: 0 0 0.25rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6e6358;
+  margin: 0 0 2rem;
+}

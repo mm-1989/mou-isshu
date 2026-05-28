@@ -1,0 +1,366 @@
+/* === ボタン === */
+.control-row {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 2rem;
+}
+.compose-button {
+  padding: 0.85rem 2.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: #faf7f1;
+  background: #2a2520;
+  border-radius: 2px;
+  transition: transform 0.12s ease, letter-spacing 0.2s ease, background 0.15s, color 0.15s;
+  border: 1px solid #2a2520;
+  font-family: inherit;
+  cursor: pointer;
+}
+.compose-button:hover {
+  transform: translateY(-1px);
+  letter-spacing: 0.4em;
+}
+.compose-button:active {
+  transform: translateY(0);
+}
+.compose-button.primary {
+  background: #2a2520;
+  color: #faf7f1;
+}
+.compose-button.secondary {
+  background: transparent;
+  color: #2a2520;
+}
+.compose-button.secondary:hover {
+  background: #2a2520;
+  color: #faf7f1;
+}
+
+.link-button {
+  font-size: 0.8rem;
+  color: #6e6358;
+  background: none;
+  border: none;
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-decoration: underline;
+  text-decoration-color: rgba(110, 99, 88, 0.35);
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+  font-family: inherit;
+}
+.link-button:hover {
+  color: #2a2520;
+  text-decoration-color: #2a2520;
+}
+.link-button.warn:hover {
+  color: #b14a3a;
+  text-decoration-color: #b14a3a;
+}
+
+/* === ページヘッダー === */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+.page-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: #2a2520;
+  text-align: center;
+  flex: 1;
+}
+.page-subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6e6358;
+  letter-spacing: 0.06em;
+  margin: 0 0 2rem;
+  line-height: 1.8;
+}
+.back-button {
+  font-size: 0.85rem;
+  color: #6e6358;
+  background: none;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  letter-spacing: 0.15em;
+  font-family: inherit;
+  border-radius: 2px;
+  transition: color 0.15s, background 0.15s;
+}
+.back-button:hover {
+  color: #2a2520;
+  background: rgba(42, 37, 32, 0.05);
+}
+.header-spacer {
+  width: 5rem;
+}
+
+/* === タグチップ === */
+.taste-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.taste-category-title {
+  margin: 0 0 0.7rem;
+  font-size: 0.8rem;
+  color: #6e6358;
+  letter-spacing: 0.35em;
+  font-weight: 500;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.chip {
+  padding: 0.42rem 1rem;
+  font-size: 0.85rem;
+  background: #fffdf8;
+  border: 1px solid #d9cdb5;
+  border-radius: 999px;
+  color: #6e6358;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s ease;
+  letter-spacing: 0.06em;
+}
+.chip:hover {
+  border-color: #2a2520;
+  color: #2a2520;
+  transform: translateY(-1px);
+}
+.chip.selected {
+  background: #2a2520;
+  color: #faf7f1;
+  border-color: #2a2520;
+}
+
+.taste-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+/* === 短歌表示画面 === */
+.taste-recap {
+  text-align: center;
+  font-size: 0.82rem;
+  color: #948776;
+  letter-spacing: 0.18em;
+  margin: 0 0 1.5rem;
+}
+.taste-recap-tag {
+  color: #2a2520;
+  padding: 0 0.25rem;
+}
+.taste-recap-suffix {
+  color: #948776;
+}
+
+.tanka-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.7rem;
+  margin-top: 2rem;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tanka-actions .compose-button {
+  width: 100%;
+}
+
+/* === TOP 歌集セクション === */
+.collection-section {
+  margin-top: 2.5rem;
+}
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: #2a2520;
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid #e3d9c4;
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+}
+.section-count {
+  font-size: 0.78rem;
+  color: #948776;
+  letter-spacing: 0.15em;
+  font-weight: 400;
+}
+
+/* === 歌カード === */
+.tanka-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.tanka-card {
+  background: #fffdf8;
+  padding: 1.75rem 1.5rem;
+  border-left: 3px solid #b59a72;
+  box-shadow: 0 1px 3px rgba(60, 40, 20, 0.08);
+  position: relative;
+}
+.tanka-card.variant-focus {
+  padding: 2.2rem 1.8rem 1.5rem;
+}
+.tanka-card.variant-compact {
+  padding: 1.4rem 1.4rem 1.1rem;
+  background: #fffdf8;
+}
+
+.tanka-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.6rem;
+  min-height: 1.5rem;
+}
+.tanka-index {
+  font-size: 0.72rem;
+  color: #b59a72;
+  letter-spacing: 0.3em;
+}
+
+.fav-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #d9cdb5;
+  padding: 0 0.2rem;
+  transition: color 0.2s, transform 0.18s;
+  line-height: 1;
+}
+.fav-button:hover {
+  transform: scale(1.18);
+  color: #b14a3a;
+}
+.fav-button.active {
+  color: #b14a3a;
+  animation: favStamp 0.35s ease;
+}
+@keyframes favStamp {
+  0% { transform: scale(1.6); }
+  50% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+.tanka-lines {
+  font-size: 1.2rem;
+  line-height: 2;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tanka-card.variant-focus .tanka-lines {
+  font-size: 1.35rem;
+  line-height: 2.1;
+}
+.tanka-card.variant-compact .tanka-lines {
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+
+.tanka-line {
+  display: block;
+}
+.tanka-line + .tanka-line {
+  margin-top: 0.15rem;
+}
+
+.tanka-foot {
+  margin-top: 1.2rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed #e3d9c4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tanka-time {
+  font-size: 0.72rem;
+  color: #948776;
+  letter-spacing: 0.12em;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* === 筆アニメ === */
+.tanka-card.animating .char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(2px);
+  animation: brushIn 320ms cubic-bezier(0.22, 0.8, 0.24, 1) forwards;
+}
+@keyframes brushIn {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+.tanka-card.animating {
+  animation: cardSlideIn 0.5s ease both;
+}
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tanka-card.animating,
+  .tanka-card.animating .char {
+    animation: none !important;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* === デバッグパネル === */
+.debug-panel {
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  background: #f3ece0;
+  border-radius: 2px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.72rem;
+  color: #6e6358;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.empty-state {
+  text-align: center;
+  color: #948776;
+  padding: 3rem 0;
+  font-size: 0.95rem;
+  line-height: 2;
+  letter-spacing: 0.06em;
+}

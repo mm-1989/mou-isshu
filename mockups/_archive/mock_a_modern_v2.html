@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>もう一首 — A 案 v2 和モダン (凝り版)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700;800&family=Klee+One:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #faf6ec;
+        --paper-deep: #f1e7d1;
+        --sumi: #1a1410;
+        --sumi-soft: #3a322a;
+        --silver: #7a6f60;
+        --silver-light: #b8ac99;
+        --shu: #b14a3a;
+        --shu-deep: #8a2e22;
+        --gold: #b59a72;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+        color: var(--sumi);
+        min-height: 100vh;
+        line-height: 1.7;
+        background-color: var(--paper);
+        background-image:
+          radial-gradient(ellipse at top, rgba(255, 250, 235, 0.5), transparent 60%),
+          radial-gradient(ellipse at bottom, rgba(241, 231, 209, 0.4), transparent 70%);
+      }
+
+      /* 和紙テクスチャ (SVG noise) */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.35;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        z-index: 0;
+      }
+
+      main {
+        position: relative;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 6rem;
+        z-index: 1;
+      }
+
+      /* === ヘッダー === */
+      header.logo-area {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+      .logo-row {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.4rem;
+        position: relative;
+        padding: 0 1rem;
+      }
+      .logo-mou {
+        font-family: 'Shippori Mincho', serif;
+        font-size: 1.6rem;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        color: var(--sumi-soft);
+      }
+      .logo-ichi {
+        font-family: 'Shippori Mincho', serif;
+        font-size: 3.4rem;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--sumi);
+        position: relative;
+        top: 0.15rem;
+        margin: 0 0.05rem;
+      }
+      .logo-shu {
+        font-family: 'Shippori Mincho', serif;
+        font-size: 1.6rem;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        color: var(--sumi-soft);
+      }
+      .logo-seal {
+        position: absolute;
+        top: -0.6rem;
+        right: -1.3rem;
+        width: 36px;
+        height: 36px;
+        background: var(--shu);
+        color: var(--paper);
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        display: grid;
+        place-items: center;
+        transform: rotate(-8deg);
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+        box-shadow: 0 0 0 2px rgba(177, 74, 58, 0.15);
+      }
+      .subtitle {
+        text-align: center;
+        font-size: 0.78rem;
+        color: var(--silver);
+        letter-spacing: 0.28em;
+        margin: 0.4rem 0 0;
+        font-feature-settings: 'palt';
+      }
+
+      /* 墨筆風区切り */
+      .brush-divider {
+        display: block;
+        width: 200px;
+        height: 14px;
+        margin: 1.5rem auto 2.2rem;
+        opacity: 0.5;
+      }
+
+      /* === ナビ === */
+      nav.tabs {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        margin-bottom: 2.2rem;
+        position: relative;
+      }
+      nav.tabs a {
+        font-size: 0.92rem;
+        color: var(--silver);
+        text-decoration: none;
+        letter-spacing: 0.25em;
+        padding: 0.4rem 0.2rem 0.5rem;
+        border-bottom: 1px solid transparent;
+        transition: color 0.2s, border-color 0.2s, letter-spacing 0.2s;
+        font-weight: 500;
+      }
+      nav.tabs a:hover {
+        color: var(--sumi);
+        letter-spacing: 0.32em;
+      }
+      nav.tabs a.active {
+        color: var(--sumi);
+        border-bottom-color: var(--sumi);
+      }
+      nav.tabs a.active::before {
+        content: '・';
+        color: var(--shu);
+        margin-right: 0.4em;
+        font-size: 1.2em;
+      }
+
+      /* === 入力ブロック === */
+      .compose-block {
+        background: rgba(255, 253, 247, 0.6);
+        border: 1px solid var(--silver-light);
+        border-radius: 2px;
+        padding: 1.6rem 1.5rem 1.4rem;
+        margin-bottom: 2.5rem;
+        backdrop-filter: blur(2px);
+      }
+      .field-label {
+        display: block;
+        font-size: 0.72rem;
+        color: var(--silver);
+        letter-spacing: 0.3em;
+        margin-bottom: 0.5rem;
+        font-feature-settings: 'palt';
+      }
+      .input-area input {
+        width: 100%;
+        padding: 0.65rem 0.2rem;
+        font-family: inherit;
+        font-size: 1rem;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--silver-light);
+        color: var(--sumi);
+        transition: border-color 0.2s;
+      }
+      .input-area input::placeholder {
+        color: var(--silver-light);
+        font-style: italic;
+      }
+      .input-area input:focus {
+        outline: none;
+        border-bottom-color: var(--sumi);
+      }
+
+      .chips-label {
+        display: block;
+        font-size: 0.72rem;
+        color: var(--silver);
+        letter-spacing: 0.3em;
+        margin: 1.1rem 0 0.55rem;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+      .chip {
+        position: relative;
+        padding: 0.4rem 0.95rem 0.42rem;
+        font-size: 0.82rem;
+        background: var(--paper);
+        border: 1px solid var(--silver-light);
+        border-radius: 999px;
+        color: var(--sumi-soft);
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.18s ease;
+        letter-spacing: 0.06em;
+      }
+      .chip:hover {
+        border-color: var(--sumi);
+        transform: translateY(-1px);
+      }
+      .chip.selected {
+        background: var(--sumi);
+        color: var(--paper);
+        border-color: var(--sumi);
+        padding-left: 1.55rem;
+      }
+      .chip.selected::before {
+        content: '✓';
+        position: absolute;
+        left: 0.7rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.72rem;
+        color: var(--paper);
+      }
+      .chip.dismissed {
+        opacity: 0.35;
+        text-decoration: line-through;
+        text-decoration-color: var(--silver);
+      }
+
+      /* === 詠むボタン === */
+      .compose-button-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+      .compose-button {
+        position: relative;
+        padding: 1rem 3.2rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+        letter-spacing: 0.4em;
+        color: var(--paper);
+        background: var(--sumi);
+        border: none;
+        border-radius: 1px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: letter-spacing 0.25s ease, padding 0.25s ease;
+        overflow: hidden;
+      }
+      .compose-button:hover {
+        letter-spacing: 0.55em;
+        padding: 1rem 3.6rem;
+      }
+      .compose-button::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border: 1px solid var(--shu);
+        border-radius: 1px;
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .compose-button:hover::before {
+        opacity: 0.5;
+      }
+
+      /* === 歌カードリスト === */
+      .tanka-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      .tanka-card {
+        position: relative;
+        background: rgba(255, 253, 247, 0.85);
+        padding: 2rem 2rem 1.4rem 3.2rem;
+        border: 1px solid var(--silver-light);
+        border-left: 2px solid var(--sumi);
+        box-shadow: 0 1px 6px rgba(60, 40, 20, 0.06);
+        animation: cardFadeUp 0.55s ease both;
+      }
+      .tanka-card:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .tanka-card:nth-child(3) {
+        animation-delay: 0.16s;
+      }
+      @keyframes cardFadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 左の縦書き「第一首」 */
+      .tanka-no {
+        position: absolute;
+        top: 1.8rem;
+        left: 1rem;
+        writing-mode: vertical-rl;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.4em;
+        color: var(--silver);
+        height: calc(100% - 3rem);
+      }
+
+      /* 朱印 */
+      .tanka-seal {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.3rem;
+        width: 38px;
+        height: 38px;
+        background: var(--shu);
+        color: var(--paper);
+        display: grid;
+        place-items: center;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border-radius: 4px;
+        transform: rotate(-6deg);
+        box-shadow: 0 0 0 2px rgba(177, 74, 58, 0.15);
+      }
+
+      .tanka-lines {
+        font-family: 'Klee One', 'Noto Serif JP', serif;
+        font-size: 1.24rem;
+        line-height: 2.1;
+        letter-spacing: 0.07em;
+        margin: 0;
+        color: var(--sumi);
+      }
+      .tanka-line {
+        display: block;
+        position: relative;
+      }
+      .tanka-line:nth-child(3) {
+        margin-top: 0.35rem;
+        margin-bottom: 0.35rem;
+      }
+      .tanka-line:nth-child(3)::before {
+        content: '';
+        position: absolute;
+        left: -1.7rem;
+        top: 50%;
+        width: 1rem;
+        height: 1px;
+        background: var(--silver-light);
+      }
+
+      .tanka-foot {
+        margin-top: 1.4rem;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--silver-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .tanka-tags {
+        display: flex;
+        gap: 0.55rem;
+        align-items: center;
+      }
+      .tag-pill {
+        font-size: 0.7rem;
+        color: var(--silver);
+        letter-spacing: 0.18em;
+        padding: 0.18rem 0.5rem;
+        border: 1px solid var(--silver-light);
+        border-radius: 2px;
+      }
+      .tag-pill.season {
+        color: var(--shu);
+        border-color: var(--shu);
+      }
+      .tanka-meta-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .tanka-time {
+        font-size: 0.7rem;
+        color: var(--silver);
+        letter-spacing: 0.12em;
+        font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      }
+      .fav-button {
+        background: none;
+        border: none;
+        font-size: 1.35rem;
+        cursor: pointer;
+        color: var(--silver-light);
+        padding: 0;
+        transition: color 0.2s, transform 0.2s;
+        line-height: 1;
+      }
+      .fav-button:hover {
+        transform: scale(1.18);
+      }
+      .fav-button.active {
+        color: var(--shu);
+        animation: sealStamp 0.4s ease;
+      }
+      @keyframes sealStamp {
+        0% {
+          transform: scale(1.6);
+        }
+        50% {
+          transform: scale(0.85);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* === フッター === */
+      footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--silver-light);
+        text-align: center;
+        font-size: 0.7rem;
+        color: var(--silver);
+        letter-spacing: 0.25em;
+      }
+      .season-glyphs {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 0.8rem;
+      }
+      .season-glyphs svg {
+        width: 22px;
+        height: 22px;
+        opacity: 0.55;
+        transition: opacity 0.2s, transform 0.2s;
+      }
+      .season-glyphs svg:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+
+      /* 季節装飾 (右上に桜の花びら一つ) */
+      .corner-decor {
+        position: fixed;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 48px;
+        height: 48px;
+        opacity: 0.35;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      @media (max-width: 540px) {
+        main {
+          padding: 2rem 1rem 4rem;
+        }
+        .tanka-card {
+          padding: 1.5rem 1.2rem 1.2rem 2.4rem;
+        }
+        .logo-ichi {
+          font-size: 2.6rem;
+        }
+        .compose-button {
+          padding: 0.85rem 2rem;
+          letter-spacing: 0.3em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 角の桜装飾 -->
+    <svg class="corner-decor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="#b14a3a" opacity="0.7">
+        <path d="M50,20 Q44,28 38,30 Q44,34 50,42 Q56,34 62,30 Q56,28 50,20 Z" />
+        <path d="M30,46 Q24,52 18,52 Q24,58 30,66 Q36,58 30,46 Z" opacity="0.6" />
+        <path d="M70,52 Q76,58 80,58 Q74,64 70,72 Q66,64 70,52 Z" opacity="0.5" />
+      </g>
+    </svg>
+
+    <main>
+      <header class="logo-area">
+        <div class="logo-row">
+          <span class="logo-mou">も う</span>
+          <span class="logo-ichi">一</span>
+          <span class="logo-shu">首</span>
+          <span class="logo-seal">詠</span>
+        </div>
+        <p class="subtitle">なんちゃって AI 短歌ジェネレーター</p>
+      </header>
+
+      <!-- 墨筆風区切り線 -->
+      <svg class="brush-divider" viewBox="0 0 200 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="brushGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1a1410" stop-opacity="0" />
+            <stop offset="20%" stop-color="#1a1410" stop-opacity="0.55" />
+            <stop offset="55%" stop-color="#1a1410" stop-opacity="0.85" />
+            <stop offset="85%" stop-color="#1a1410" stop-opacity="0.4" />
+            <stop offset="100%" stop-color="#1a1410" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path d="M2,7 Q40,4 100,7 T198,8" stroke="url(#brushGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        <circle cx="100" cy="7" r="1.6" fill="#b14a3a" opacity="0.7" />
+      </svg>
+
+      <nav class="tabs">
+        <a href="#" class="active">詠 む</a>
+        <a href="#">歌 集</a>
+      </nav>
+
+      <section class="compose-block">
+        <label class="field-label">お題 ・ 心の景</label>
+        <div class="input-area">
+          <input
+            type="text"
+            placeholder="例: 春の別れ、 コーヒー、 終電のホーム..."
+            value="コーヒー 寂しい"
+          />
+        </div>
+
+        <span class="chips-label">推されたタグ (押して選び直す)</span>
+        <div class="chips">
+          <button class="chip selected">コーヒー</button>
+          <button class="chip selected">寂しさ</button>
+          <button class="chip">飲み物</button>
+          <button class="chip dismissed">楽しい</button>
+        </div>
+      </section>
+
+      <div class="compose-button-row">
+        <button class="compose-button">詠 む</button>
+      </div>
+
+      <div class="tanka-list">
+        <article class="tanka-card">
+          <span class="tanka-no">第 一 首</span>
+          <span class="tanka-seal">詠</span>
+          <p class="tanka-lines">
+            <span class="tanka-line">コーヒーを</span>
+            <span class="tanka-line">一人で飲んで</span>
+            <span class="tanka-line">寂しさの</span>
+            <span class="tanka-line">街灯のもと</span>
+            <span class="tanka-line">切なさ残る</span>
+          </p>
+          <div class="tanka-foot">
+            <div class="tanka-tags">
+              <span class="tag-pill">コーヒー</span>
+              <span class="tag-pill">寂しさ</span>
+            </div>
+            <div class="tanka-meta-right">
+              <span class="tanka-time">01:23:45</span>
+              <button class="fav-button active" title="お気に入りに追加">♥</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="tanka-card">
+          <span class="tanka-no">第 二 首</span>
+          <span class="tanka-seal">詠</span>
+          <p class="tanka-lines">
+            <span class="tanka-line">春風に</span>
+            <span class="tanka-line">写真を見つめて</span>
+            <span class="tanka-line">懐かしさ</span>
+            <span class="tanka-line">コンビニに立つ</span>
+            <span class="tanka-line">君の面影</span>
+          </p>
+          <div class="tanka-foot">
+            <div class="tanka-tags">
+              <span class="tag-pill season">春</span>
+              <span class="tag-pill">写真</span>
+              <span class="tag-pill">君</span>
+            </div>
+            <div class="tanka-meta-right">
+              <span class="tanka-time">01:24:12</span>
+              <button class="fav-button" title="お気に入りに追加">♡</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="tanka-card">
+          <span class="tanka-no">第 三 首</span>
+          <span class="tanka-seal">詠</span>
+          <p class="tanka-lines">
+            <span class="tanka-line">終電を</span>
+            <span class="tanka-line">一人で待って</span>
+            <span class="tanka-line">うれしさが</span>
+            <span class="tanka-line">駅のホームに</span>
+            <span class="tanka-line">静かに揺れる</span>
+          </p>
+          <div class="tanka-foot">
+            <div class="tanka-tags">
+              <span class="tag-pill">終電</span>
+              <span class="tag-pill">駅</span>
+              <span class="tag-pill">うれしさ</span>
+            </div>
+            <div class="tanka-meta-right">
+              <span class="tanka-time">01:24:58</span>
+              <button class="fav-button" title="お気に入りに追加">♡</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <footer>
+        <div class="season-glyphs">
+          <!-- 春 = 桜 -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="春">
+            <path d="M12,3 Q9,7 6,8 Q10,11 12,17 Q14,11 18,8 Q15,7 12,3 Z" fill="#b14a3a" />
+          </svg>
+          <!-- 夏 = 蝉 -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="夏">
+            <ellipse cx="12" cy="14" rx="3.5" ry="6" fill="#3a322a" />
+            <path d="M12,8 Q6,10 4,16 M12,8 Q18,10 20,16" stroke="#7a6f60" stroke-width="0.9" fill="none" />
+          </svg>
+          <!-- 秋 = 落葉 (もみじ) -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="秋">
+            <path d="M12,3 L13.5,8 L18,7 L15,11 L19,13 L14,14 L15,19 L12,16 L9,19 L10,14 L5,13 L9,11 L6,7 L10.5,8 Z" fill="#b14a3a" opacity="0.85" />
+          </svg>
+          <!-- 冬 = 雪 -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="冬">
+            <g stroke="#7a6f60" stroke-width="1.2" stroke-linecap="round">
+              <line x1="12" y1="3" x2="12" y2="21" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="5.6" y1="5.6" x2="18.4" y2="18.4" />
+              <line x1="18.4" y1="5.6" x2="5.6" y2="18.4" />
+            </g>
+          </svg>
+        </div>
+        <div>もう一首 ・ 一句一会</div>
+      </footer>
+    </main>
+  </body>
+</html>
