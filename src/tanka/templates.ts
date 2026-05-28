@@ -1,57 +1,56 @@
 import type { Template } from './types';
 
-/**
- * Phase 0 v0 テンプレ。 1 種類のみ。
- *
- * 構造:
- *   L1 (5): [season-4] [particle-1]                 例: 春風に
- *   L2 (7): [motif-3]  [particle-1] [verb-テ-3]      例: 写真を泣いて
- *   L3 (5): [emotion-4] [particle-1]                 例: 寂しさの
- *   L4 (7): [motif-3]  [particle-1] [verb-終止-3]    例: 電車に走る
- *   L5 (7): [emotion-4] [verb-終止-3]                 例: 切なさ残る
- */
 export const templateV0: Template = {
-  id: 'v0-static-1',
-  frame: 'modern-basic',
+  id: 'v1-verb-final',
+  frame: '上句観察-下句感情',
   lines: [
-    {
-      target: 5,
-      slots: [
-        { kind: 'season', mora: 4 },
-        { kind: 'particle', mora: 1 },
-      ],
-    },
-    {
-      target: 7,
-      slots: [
-        { kind: 'motif', mora: 3 },
-        { kind: 'particle', mora: 1 },
-        { kind: 'verb', mora: 3, constraint: { pos: 'verb-テ' } },
-      ],
-    },
-    {
-      target: 5,
-      slots: [
-        { kind: 'emotion', mora: 4 },
-        { kind: 'particle', mora: 1 },
-      ],
-    },
-    {
-      target: 7,
-      slots: [
-        { kind: 'motif', mora: 3 },
-        { kind: 'particle', mora: 1 },
-        { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止' } },
-      ],
-    },
-    {
-      target: 7,
-      slots: [
-        { kind: 'emotion', mora: 4 },
-        { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止' } },
-      ],
-    },
+    { target: 5, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-テ', tags: ['人'] } }] },
+    { target: 5, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
+    { target: 7, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
   ],
 };
 
-export const allTemplates: Template[] = [templateV0];
+const templateTaigendome: Template = {
+  id: 'v1-taigendome',
+  frame: '連体-体言止め',
+  lines: [
+    { target: 5, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-テ', tags: ['人'] } }] },
+    { target: 5, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'kaku', tags: ['主格'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['場面'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }] },
+    { target: 7, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 2, constraint: { tags: ['!人'] } }] },
+  ],
+};
+
+const templateInversion: Template = {
+  id: 'v1-inversion',
+  frame: '倒置法',
+  lines: [
+    { target: 5, slots: [{ kind: 'motif', mora: 2, constraint: { tags: ['人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 2, constraint: { pos: 'verb-終止', tags: ['心情'] } }] },
+    { target: 7, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 2, constraint: { tags: ['!人'] } }] },
+    { target: 5, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 2, constraint: { tags: ['!人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 4, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
+    { target: 7, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
+  ],
+};
+
+const templateKugire: Template = {
+  id: 'v1-kugire',
+  frame: '三句切れ',
+  lines: [
+    { target: 5, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 2, constraint: { tags: ['!人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 4, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
+    { target: 5, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['場面'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }] },
+    { target: 7, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
+  ],
+};
+
+export const allTemplates: Template[] = [
+  templateV0,
+  templateTaigendome,
+  templateInversion,
+  templateKugire,
+];

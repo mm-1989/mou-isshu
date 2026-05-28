@@ -1,4 +1,5 @@
 export type VocabKind = 'season' | 'emotion' | 'motif' | 'verb' | 'particle';
+export type ParticleCategory = 'kaku' | 'rentai' | 'fukujo';
 
 export interface VocabEntry {
   display: string;
@@ -12,7 +13,7 @@ export interface VocabEntry {
 export interface Slot {
   kind: VocabKind;
   mora: number;
-  constraint?: { tags?: string[]; pos?: string };
+  constraint?: { tags?: string[]; pos?: string; particle?: ParticleCategory };
 }
 
 export interface Line {

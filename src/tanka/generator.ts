@@ -2,6 +2,7 @@ import type { Tanka, TankaLine, Template, Line, VocabEntry } from './types';
 import { allTemplates, templateV0 } from './templates';
 import { buildVocabIndex, lookupVocab, type VocabIndex } from './vocab';
 import { countMora } from './mora';
+import { hasBadPattern } from './badPatterns';
 
 export interface GenerateOptions {
   template?: Template;
@@ -46,6 +47,15 @@ function pickRandomTagged(
   return arr[Math.floor(rng() * arr.length)];
 }
 
+function matchesSlotTags(entry: VocabEntry, tags?: string[]): boolean {
+  if (!tags || tags.length === 0) return true;
+  return tags.every((tag) => (
+    tag.startsWith('!')
+      ? !entry.tags.includes(tag.slice(1))
+      : entry.tags.includes(tag)
+  ));
+}
+
 function fillLine(
   line: Line,
   index: VocabIndex,
@@ -54,12 +64,18 @@ function fillLine(
 ): TankaLine | null {
   const entries: VocabEntry[] = [];
   for (const slot of line.slots) {
-    let candidates = lookupVocab(index, slot.kind, slot.mora, slot.constraint?.pos);
+    let candidates = lookupVocab(
+      index,
+      slot.kind,
+      slot.mora,
+      slot.constraint?.pos,
+      slot.constraint?.particle,
+    ).filter((entry) => matchesSlotTags(entry, slot.constraint?.tags));
     if (candidates.length === 0 && line.allowJiamari !== false) {
       candidates = [
-        ...lookupVocab(index, slot.kind, slot.mora + 1, slot.constraint?.pos),
-        ...lookupVocab(index, slot.kind, slot.mora - 1, slot.constraint?.pos),
-      ];
+        ...lookupVocab(index, slot.kind, slot.mora + 1, slot.constraint?.pos, slot.constraint?.particle),
+        ...lookupVocab(index, slot.kind, slot.mora - 1, slot.constraint?.pos, slot.constraint?.particle),
+      ].filter((entry) => matchesSlotTags(entry, slot.constraint?.tags));
     }
     // 助詞・動詞には taste 重み付けしない (タグ概念が薄いため)
     const usePref = slot.kind === 'season' || slot.kind === 'emotion' || slot.kind === 'motif';
@@ -75,19 +91,27 @@ function fillLine(
 }
 
 export function generate(opts: GenerateOptions = {}): GenerateResult {
-  const template = opts.template ?? templateV0;
-  const index = opts.vocabIndex ?? getIndex();
   const rng = opts.rng ?? Math.random;
+  const template = opts.template ?? pickRandom(allTemplates, rng) ?? templateV0;
+  const index = opts.vocabIndex ?? getIndex();
 
-  const filled = template.lines.map((line, i) => {
-    const pinned = opts.pinnedLines?.[i];
-    if (pinned) return pinned;
-    return fillLine(line, index, rng, opts.selectedTags);
-  });
-  if (filled.some((l) => l === null)) {
-    throw new Error('generate: failed to fill some line (DB too small?)');
+  let lines: TankaLine[] | null = null;
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const filled = template.lines.map((line, i) => {
+      const pinned = opts.pinnedLines?.[i];
+      if (pinned) return pinned;
+      return fillLine(line, index, rng, opts.selectedTags);
+    });
+    if (filled.some((l) => l === null)) {
+      throw new Error('generate: failed to fill some line (DB too small?)');
+    }
+    const candidateLines = filled as TankaLine[];
+    if (!hasBadPattern(candidateLines) || attempt === 7) {
+      lines = candidateLines;
+      break;
+    }
   }
-  const lines = filled as TankaLine[];
+  if (!lines) throw new Error('generate: failed to draw valid lines');
   const tanka: Tanka = {
     id: `${Date.now()}-${Math.floor(rng() * 1e6)}`,
     templateId: template.id,

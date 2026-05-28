@@ -2,7 +2,7 @@ import { generate } from '../src/tanka/generator';
 
 const TARGETS = [5, 7, 5, 7, 7];
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 20; i++) {
   const { tanka } = generate();
   console.log(`--- 第 ${i + 1} 首 (template: ${tanka.templateId}) ---`);
   tanka.lines.forEach((line, j) => {

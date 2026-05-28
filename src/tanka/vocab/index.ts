@@ -1,4 +1,4 @@
-import type { VocabEntry, VocabKind } from '../types';
+import type { ParticleCategory, VocabEntry, VocabKind } from '../types';
 import { countMora } from '../mora';
 import { seasonVocab } from './season';
 import { emotionVocab } from './emotion';
@@ -53,9 +53,11 @@ export function lookupVocab(
   kind: VocabKind,
   mora: number,
   pos?: string,
+  particle?: ParticleCategory,
 ): VocabEntry[] {
-  if (pos) {
-    return index.byKindMoraPos.get(key3(kind, mora, pos)) ?? [];
+  const normalizedPos = particle ?? pos;
+  if (normalizedPos) {
+    return index.byKindMoraPos.get(key3(kind, mora, normalizedPos)) ?? [];
   }
   return index.byKindMora.get(key2(kind, mora)) ?? [];
 }
