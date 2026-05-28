@@ -8,6 +8,9 @@ function toKanji(n: number): string {
   return String(n);
 }
 
+type PinFlags = readonly [boolean, boolean, boolean, boolean, boolean];
+const ALL_FALSE: PinFlags = [false, false, false, false, false];
+
 interface Props {
   tanka: Tanka;
   index?: number;
@@ -16,6 +19,8 @@ interface Props {
   variant?: 'focus' | 'compact';
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
+  pins?: PinFlags;
+  onTogglePin?: (lineIdx: number) => void;
 }
 
 const CHAR_DELAY_MS = 55;
@@ -29,6 +34,8 @@ export function TankaCard({
   variant = 'focus',
   isFavorite,
   onToggleFavorite,
+  pins = ALL_FALSE,
+  onTogglePin,
 }: Props) {
   const createdAt = new Date(tanka.createdAt).toLocaleString('ja-JP', {
     month: 'numeric',
@@ -65,22 +72,35 @@ export function TankaCard({
       <ol class="tanka-lines">
         {tanka.lines.map((line, i) => {
           const chars = [...line.display];
+          const pinned = pins[i];
           return (
-            <li class="tanka-line" key={i}>
-              {animate
-                ? chars.map((ch, ci) => {
-                    const delay = lineStartDelays[i] + ci * CHAR_DELAY_MS;
-                    return (
-                      <span
-                        class="char"
-                        key={ci}
-                        style={{ animationDelay: `${delay}ms` }}
-                      >
-                        {ch}
-                      </span>
-                    );
-                  })
-                : line.display}
+            <li class={`tanka-line ${pinned ? 'pinned' : ''}`} key={i}>
+              {onTogglePin && (
+                <button
+                  class={`pin-button ${pinned ? 'active' : ''}`}
+                  onClick={() => onTogglePin(i)}
+                  aria-label={pinned ? `第 ${i + 1} 句 固定中、 押すと解除` : `第 ${i + 1} 句 を固定`}
+                  title={pinned ? '固定中。 押すと解除' : 'この句を固定して詠み直す'}
+                >
+                  {pinned ? '🔒' : '○'}
+                </button>
+              )}
+              <span class="line-text">
+                {animate
+                  ? chars.map((ch, ci) => {
+                      const delay = lineStartDelays[i] + ci * CHAR_DELAY_MS;
+                      return (
+                        <span
+                          class="char"
+                          key={ci}
+                          style={{ animationDelay: `${delay}ms` }}
+                        >
+                          {ch}
+                        </span>
+                      );
+                    })
+                  : line.display}
+              </span>
             </li>
           );
         })}

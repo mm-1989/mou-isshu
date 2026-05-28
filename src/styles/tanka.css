@@ -284,10 +284,61 @@
 }
 
 .tanka-line {
-  display: block;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
 }
 .tanka-line + .tanka-line {
   margin-top: 0.15rem;
+}
+.tanka-line .line-text {
+  flex: 1;
+  display: inline-block;
+  transition: color 0.18s;
+}
+.tanka-line.pinned .line-text {
+  color: #2a5d3f;
+}
+
+.pin-button {
+  flex-shrink: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  color: #c8bba2;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color 0.15s, background 0.15s, transform 0.12s;
+  padding: 0;
+  line-height: 1;
+  font-family: inherit;
+}
+.pin-button:hover {
+  color: #2a5d3f;
+  background: rgba(42, 93, 63, 0.08);
+  transform: scale(1.1);
+}
+.pin-button.active {
+  color: #2a5d3f;
+  font-size: 0.95rem;
+}
+
+.pin-hint {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #8a7c6c;
+  letter-spacing: 0.06em;
+  margin: 0 0 1rem;
+  line-height: 1.8;
+}
+.pin-hint-icon {
+  color: #2a5d3f;
+  font-weight: 700;
+  padding: 0 0.2rem;
 }
 
 .tanka-foot {
