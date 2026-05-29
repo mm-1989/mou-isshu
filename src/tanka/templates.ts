@@ -48,9 +48,24 @@ const templateKugire: Template = {
   ],
 };
 
+// 擬音導入: 初句を「○○○○と」(オノマトペ+様態の と) で起こし、 以降は V0 と同形。
+// と が後続の動詞 (L2 テ形) にかかる連用修飾として読める。
+const templateOnomatope: Template = {
+  id: 'v1-onomatope',
+  frame: '擬音導入',
+  lines: [
+    { target: 5, slots: [{ kind: 'onomatope', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['様態'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-テ', tags: ['人'] } }] },
+    { target: 5, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
+    { target: 7, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
+  ],
+};
+
 export const allTemplates: Template[] = [
   templateV0,
   templateTaigendome,
   templateInversion,
   templateKugire,
+  templateOnomatope,
 ];

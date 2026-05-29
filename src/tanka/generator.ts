@@ -11,6 +11,11 @@ export interface GenerateOptions {
   rng?: () => number;
   /** length 5。 null/undefined の slot は再抽選、 TankaLine の slot はそのまま採用 */
   pinnedLines?: (TankaLine | null | undefined)[];
+  /**
+   * 直近の連続生成で出た語 (display)。 別候補があれば優先的に回避する (ソフト)。
+   * 候補が全て既出なら従来通り全候補から抽選。 助詞は対象外。
+   */
+  recentDisplays?: Iterable<string>;
 }
 
 export interface GenerateResult {
@@ -29,22 +34,37 @@ function pickRandom<T>(arr: T[], rng: () => number): T | undefined {
 }
 
 /**
- * preferredTags があれば、 タグ一致するエントリを優先抽選。
- * 一致無しなら全候補から抽選 (fallback)。
+ * 直近既出語を避ける (ソフト)。 別候補が残るなら既出を除外、
+ * 全て既出なら全候補を返す。 助詞は反復しても自然なので対象外。
  */
-function pickRandomTagged(
+function applyRecency(
+  arr: VocabEntry[],
+  recent?: Set<string>,
+): VocabEntry[] {
+  if (!recent || recent.size === 0) return arr;
+  const fresh = arr.filter((e) => e.kind === 'particle' || !recent.has(e.display));
+  return fresh.length > 0 ? fresh : arr;
+}
+
+/**
+ * エントリ抽選。 順序は taste 優先 → 既出回避 → ランダム。
+ * usePref が true のときだけ preferredTags でタグ一致を優先する。
+ */
+function pickEntry(
   arr: VocabEntry[],
   rng: () => number,
+  usePref: boolean,
   preferredTags?: string[],
+  recent?: Set<string>,
 ): VocabEntry | undefined {
   if (arr.length === 0) return undefined;
-  if (preferredTags && preferredTags.length > 0) {
-    const matched = arr.filter((e) =>
-      e.tags?.some((t) => preferredTags.includes(t)),
-    );
-    if (matched.length > 0) return matched[Math.floor(rng() * matched.length)];
+  let pool = arr;
+  if (usePref && preferredTags && preferredTags.length > 0) {
+    const matched = pool.filter((e) => e.tags?.some((t) => preferredTags.includes(t)));
+    if (matched.length > 0) pool = matched;
   }
-  return arr[Math.floor(rng() * arr.length)];
+  pool = applyRecency(pool, recent);
+  return pool[Math.floor(rng() * pool.length)];
 }
 
 function matchesSlotTags(entry: VocabEntry, tags?: string[]): boolean {
@@ -62,6 +82,7 @@ function fillLine(
   rng: () => number,
   preferredTags?: string[],
   outerUsedDisplays?: Set<string>,
+  recent?: Set<string>,
 ): TankaLine | null {
   const entries: VocabEntry[] = [];
   const lineUsed = new Set<string>();
@@ -91,11 +112,13 @@ function fillLine(
         ].filter((entry) => matchesSlotTags(entry, slot.constraint?.tags)),
       );
     }
-    // 助詞・動詞には taste 重み付けしない (タグ概念が薄いため)
-    const usePref = slot.kind === 'season' || slot.kind === 'emotion' || slot.kind === 'motif';
-    const picked = usePref
-      ? pickRandomTagged(candidates, rng, preferredTags)
-      : pickRandom(candidates, rng);
+    // 助詞・動詞には taste 重み付けしない (タグ概念が薄いため)。 オノマトペは taste 連動する。
+    const usePref =
+      slot.kind === 'season' ||
+      slot.kind === 'emotion' ||
+      slot.kind === 'motif' ||
+      slot.kind === 'onomatope';
+    const picked = pickEntry(candidates, rng, usePref, preferredTags, recent);
     if (!picked) return null;
     entries.push(picked);
     if (picked.kind !== 'particle') lineUsed.add(picked.display);
@@ -109,6 +132,7 @@ export function generate(opts: GenerateOptions = {}): GenerateResult {
   const rng = opts.rng ?? Math.random;
   const template = opts.template ?? pickRandom(allTemplates, rng) ?? templateV0;
   const index = opts.vocabIndex ?? getIndex();
+  const recent = opts.recentDisplays ? new Set(opts.recentDisplays) : undefined;
 
   let lines: TankaLine[] | null = null;
   for (let attempt = 0; attempt < 8; attempt++) {
@@ -124,7 +148,7 @@ export function generate(opts: GenerateOptions = {}): GenerateResult {
     const filled = template.lines.map((line, i) => {
       const pinned = opts.pinnedLines?.[i];
       if (pinned) return pinned;
-      const result = fillLine(line, index, rng, opts.selectedTags, usedAcrossLines);
+      const result = fillLine(line, index, rng, opts.selectedTags, usedAcrossLines, recent);
       if (result) {
         for (const e of result.entries) {
           if (e.kind !== 'particle') usedAcrossLines.add(e.display);

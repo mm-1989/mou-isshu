@@ -1,4 +1,4 @@
-export type VocabKind = 'season' | 'emotion' | 'motif' | 'verb' | 'particle';
+export type VocabKind = 'season' | 'emotion' | 'motif' | 'verb' | 'particle' | 'onomatope';
 export type ParticleCategory = 'kaku' | 'rentai' | 'fukujo';
 
 export interface VocabEntry {

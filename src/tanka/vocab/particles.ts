@@ -14,5 +14,5 @@ export const particlesVocab: VocabEntry[] = [
   { display: 'の', reading: 'の', aliases: ['の'], tags: ['助詞', '連体'], kind: 'particle', pos: 'rentai' },
   { display: 'は', reading: 'わ', aliases: ['は'], tags: ['助詞', '主題', '副助詞'], kind: 'particle', pos: 'fukujo' },
   { display: 'も', reading: 'も', aliases: ['も'], tags: ['助詞', '並列', '副助詞'], kind: 'particle', pos: 'fukujo' },
-  { display: 'と', reading: 'と', aliases: ['と'], tags: ['助詞', '並列', '副助詞'], kind: 'particle', pos: 'fukujo' },
+  { display: 'と', reading: 'と', aliases: ['と'], tags: ['助詞', '並列', '様態', '副助詞'], kind: 'particle', pos: 'fukujo' },
 ];

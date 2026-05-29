@@ -5,6 +5,7 @@ import { emotionVocab } from './emotion';
 import { motifVocab } from './motif';
 import { verbsVocab } from './verbs';
 import { particlesVocab } from './particles';
+import { onomatopeVocab } from './onomatope';
 
 export const allVocab: VocabEntry[] = [
   ...seasonVocab,
@@ -12,6 +13,7 @@ export const allVocab: VocabEntry[] = [
   ...motifVocab,
   ...verbsVocab,
   ...particlesVocab,
+  ...onomatopeVocab,
 ];
 
 export interface VocabIndex {
@@ -62,4 +64,4 @@ export function lookupVocab(
   return index.byKindMora.get(key2(kind, mora)) ?? [];
 }
 
-export { seasonVocab, emotionVocab, motifVocab, verbsVocab, particlesVocab };
+export { seasonVocab, emotionVocab, motifVocab, verbsVocab, particlesVocab, onomatopeVocab };
