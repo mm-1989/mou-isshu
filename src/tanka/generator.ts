@@ -61,21 +61,35 @@ function fillLine(
   index: VocabIndex,
   rng: () => number,
   preferredTags?: string[],
+  outerUsedDisplays?: Set<string>,
 ): TankaLine | null {
   const entries: VocabEntry[] = [];
+  const lineUsed = new Set<string>();
   for (const slot of line.slots) {
-    let candidates = lookupVocab(
-      index,
-      slot.kind,
-      slot.mora,
-      slot.constraint?.pos,
-      slot.constraint?.particle,
-    ).filter((entry) => matchesSlotTags(entry, slot.constraint?.tags));
+    const dedupe = (arr: VocabEntry[]) =>
+      arr.filter((e) => {
+        if (e.kind === 'particle') return true;
+        if (lineUsed.has(e.display)) return false;
+        if (outerUsedDisplays?.has(e.display)) return false;
+        return true;
+      });
+
+    let candidates = dedupe(
+      lookupVocab(
+        index,
+        slot.kind,
+        slot.mora,
+        slot.constraint?.pos,
+        slot.constraint?.particle,
+      ).filter((entry) => matchesSlotTags(entry, slot.constraint?.tags)),
+    );
     if (candidates.length === 0 && line.allowJiamari !== false) {
-      candidates = [
-        ...lookupVocab(index, slot.kind, slot.mora + 1, slot.constraint?.pos, slot.constraint?.particle),
-        ...lookupVocab(index, slot.kind, slot.mora - 1, slot.constraint?.pos, slot.constraint?.particle),
-      ].filter((entry) => matchesSlotTags(entry, slot.constraint?.tags));
+      candidates = dedupe(
+        [
+          ...lookupVocab(index, slot.kind, slot.mora + 1, slot.constraint?.pos, slot.constraint?.particle),
+          ...lookupVocab(index, slot.kind, slot.mora - 1, slot.constraint?.pos, slot.constraint?.particle),
+        ].filter((entry) => matchesSlotTags(entry, slot.constraint?.tags)),
+      );
     }
     // 助詞・動詞には taste 重み付けしない (タグ概念が薄いため)
     const usePref = slot.kind === 'season' || slot.kind === 'emotion' || slot.kind === 'motif';
@@ -84,6 +98,7 @@ function fillLine(
       : pickRandom(candidates, rng);
     if (!picked) return null;
     entries.push(picked);
+    if (picked.kind !== 'particle') lineUsed.add(picked.display);
   }
   const display = entries.map((e) => e.display).join('');
   const reading = entries.map((e) => e.reading).join('');
@@ -97,10 +112,25 @@ export function generate(opts: GenerateOptions = {}): GenerateResult {
 
   let lines: TankaLine[] | null = null;
   for (let attempt = 0; attempt < 8; attempt++) {
+    const usedAcrossLines = new Set<string>();
+    if (opts.pinnedLines) {
+      for (const pl of opts.pinnedLines) {
+        if (!pl) continue;
+        for (const e of pl.entries) {
+          if (e.kind !== 'particle') usedAcrossLines.add(e.display);
+        }
+      }
+    }
     const filled = template.lines.map((line, i) => {
       const pinned = opts.pinnedLines?.[i];
       if (pinned) return pinned;
-      return fillLine(line, index, rng, opts.selectedTags);
+      const result = fillLine(line, index, rng, opts.selectedTags, usedAcrossLines);
+      if (result) {
+        for (const e of result.entries) {
+          if (e.kind !== 'particle') usedAcrossLines.add(e.display);
+        }
+      }
+      return result;
     });
     if (filled.some((l) => l === null)) {
       throw new Error('generate: failed to fill some line (DB too small?)');

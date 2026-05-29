@@ -1,5 +1,6 @@
 import type { Tanka } from '../tanka/types';
 import { TankaCard } from './TankaCard';
+import { BrushDivider } from './BrushDivider';
 
 interface Props {
   favorites: Tanka[];
@@ -11,8 +12,20 @@ export function TopPage({ favorites, onCompose, onToggleFavorite }: Props) {
   const count = favorites.length;
   return (
     <main>
-      <h1>もう一首</h1>
-      <p class="subtitle">なんちゃって AI 短歌ジェネレーター</p>
+      <header class="logo-area">
+        <div class="logo-canvas">
+          <div class="logo-sun-bg" />
+          <div class="logo-text">
+            <span class="calli logo-mou">も う</span>
+            <span class="calli logo-ichi">一</span>
+            <span class="calli logo-shu">首</span>
+          </div>
+          <span class="logo-seal">詠</span>
+        </div>
+        <p class="subtitle">な ん ち ゃ っ て A I 短 歌 ジ ェ ネ レ ー タ ー</p>
+      </header>
+
+      <BrushDivider />
 
       <div class="control-row">
         <button class="compose-button primary" onClick={onCompose}>

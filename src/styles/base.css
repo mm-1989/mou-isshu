@@ -1,3 +1,21 @@
+:root {
+  --washi: #f1e6c9;
+  --washi-warm: #e9d8af;
+  --washi-deep: #d9c293;
+  --washi-bright: #fffaeb;
+  --sumi: #1a0f0a;
+  --sumi-mid: #3a2a1c;
+  --shu: #d23a2c;
+  --shu-deep: #9b1f15;
+  --shu-bright: #e23f2e;
+  --gold: #c8a13c;
+  --gold-deep: #a78026;
+  --moss: #4a6b3d;
+  --indigo: #3a5670;
+  --silver: #7a6f60;
+  --silver-light: #b8ac99;
+}
+
 *,
 *::before,
 *::after {
@@ -8,17 +26,39 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
-  background: linear-gradient(180deg, #faf7f1 0%, #f3ece0 100%);
-  color: #2a2520;
+  font-family: 'Shippori Mincho', 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  color: var(--sumi);
   min-height: 100vh;
-  line-height: 1.6;
+  line-height: 1.7;
+  overflow-x: hidden;
+  background-color: var(--washi);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(244, 230, 198, 0.6), transparent 65%),
+    radial-gradient(ellipse 90% 60% at 80% 100%, rgba(217, 194, 147, 0.5), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 10% 80%, rgba(200, 161, 60, 0.12), transparent 60%);
+}
+
+/* 和紙の質感 (繊維 + 染み) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.42  0 0 0 0 0.22  0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  z-index: 0;
 }
 
 #app {
-  max-width: 720px;
+  position: relative;
+  z-index: 2;
+}
+
+main {
+  position: relative;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 5rem;
+  padding: 2.5rem 1.5rem 6rem;
 }
 
 button {
@@ -29,16 +69,21 @@ button {
 }
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
   text-align: center;
-  margin: 0 0 0.25rem;
+  margin: 0;
+  font-family: 'Yuji Syuku', 'Shippori Mincho', serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: 0.3em;
+  color: var(--sumi);
 }
 
 .subtitle {
   text-align: center;
-  font-size: 0.85rem;
-  color: #6e6358;
-  margin: 0 0 2rem;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.78rem;
+  color: var(--sumi-mid);
+  letter-spacing: 0.28em;
+  margin: 0.5rem 0 0;
+  opacity: 0.78;
 }

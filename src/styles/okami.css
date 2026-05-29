@@ -1,0 +1,109 @@
+/* ======== 大神世界観: 固定背景演出 ======== */
+
+/* === 天照 (太陽) — 右上に配置 === */
+.amaterasu {
+  position: fixed;
+  top: -240px;
+  right: -300px;
+  width: 480px;
+  height: 480px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.72;
+  filter: drop-shadow(0 0 40px rgba(210, 58, 44, 0.18));
+}
+
+@media (max-width: 900px) {
+  .amaterasu {
+    width: 400px;
+    height: 400px;
+    top: -210px;
+    right: -240px;
+  }
+}
+.amaterasu .sun-core {
+  fill: var(--shu);
+}
+.amaterasu .sun-ring {
+  fill: none;
+  stroke: var(--shu-deep);
+  stroke-width: 2.2;
+  opacity: 0.55;
+}
+.amaterasu .sun-ray {
+  stroke: var(--shu);
+  stroke-width: 2;
+  opacity: 0.4;
+}
+
+/* === 山並みシルエット (下端) === */
+.mountains {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 180px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* === 桜の花びらが舞う === */
+.sakura-field {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.petal {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  opacity: 0.75;
+  animation: petalFall linear infinite;
+}
+.petal svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.06));
+}
+@keyframes petalFall {
+  0% {
+    transform: translate3d(0, -20vh, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-30px, 50vh, 0) rotate(180deg);
+  }
+  100% {
+    transform: translate3d(20px, 120vh, 0) rotate(360deg);
+  }
+}
+.petal.p1 { left: 12%;  animation-duration: 14s; animation-delay: 0s;   width: 16px; height: 16px; }
+.petal.p2 { left: 28%;  animation-duration: 18s; animation-delay: 3s;   width: 22px; height: 22px; }
+.petal.p3 { left: 44%;  animation-duration: 12s; animation-delay: 1.5s; width: 14px; height: 14px; opacity: 0.55; }
+.petal.p4 { left: 62%;  animation-duration: 20s; animation-delay: 5s;   width: 26px; height: 26px; }
+.petal.p5 { left: 78%;  animation-duration: 15s; animation-delay: 2s;   width: 18px; height: 18px; }
+.petal.p6 { left: 90%;  animation-duration: 17s; animation-delay: 6s;   width: 20px; height: 20px; }
+.petal.p7 { left: 6%;   animation-duration: 19s; animation-delay: 8s;   width: 14px; height: 14px; opacity: 0.5; }
+.petal.p8 { left: 52%;  animation-duration: 16s; animation-delay: 10s;  width: 24px; height: 24px; }
+
+@media (max-width: 600px) {
+  .amaterasu {
+    width: 300px;
+    height: 300px;
+    top: -170px;
+    right: -150px;
+  }
+  .petal.p4, .petal.p6, .petal.p8 {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petal {
+    animation: none;
+    display: none;
+  }
+}
