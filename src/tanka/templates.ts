@@ -19,7 +19,7 @@ const templateTaigendome: Template = {
     { target: 5, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
     { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-テ', tags: ['人'] } }] },
     { target: 5, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'kaku', tags: ['主格'] } }] },
-    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['場面'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['場面'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }], allowJiamari: true },
     { target: 7, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 2, constraint: { tags: ['!人'] } }] },
   ],
 };
@@ -43,7 +43,7 @@ const templateKugire: Template = {
     { target: 5, slots: [{ kind: 'season', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
     { target: 7, slots: [{ kind: 'motif', mora: 2, constraint: { tags: ['!人'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }, { kind: 'verb', mora: 4, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
     { target: 5, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'particle', mora: 1, constraint: { particle: 'fukujo', tags: ['主題'] } }] },
-    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['場面'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }] },
+    { target: 7, slots: [{ kind: 'motif', mora: 3, constraint: { tags: ['場面'] } }, { kind: 'particle', mora: 1, constraint: { particle: 'rentai' } }, { kind: 'motif', mora: 3, constraint: { tags: ['!人'] } }], allowJiamari: true },
     { target: 7, slots: [{ kind: 'emotion', mora: 4 }, { kind: 'verb', mora: 3, constraint: { pos: 'verb-終止', tags: ['非人'] } }] },
   ],
 };
