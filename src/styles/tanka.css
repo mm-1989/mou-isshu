@@ -176,12 +176,21 @@
   align-items: stretch;
   gap: 0.7rem;
   margin-top: 2rem;
-  max-width: 320px;
+  max-width: 440px;
   margin-left: auto;
   margin-right: auto;
 }
 .tanka-actions .compose-button {
   width: 100%;
+  white-space: nowrap;
+}
+
+@media (max-width: 500px) {
+  .tanka-actions .compose-button {
+    letter-spacing: 0.2em;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+  }
 }
 
 /* === TOP 歌集セクション === */
