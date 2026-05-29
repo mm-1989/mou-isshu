@@ -25,4 +25,12 @@ export const onomatopeVocab: VocabEntry[] = [
   { display: 'うとうと', reading: 'うとうと', aliases: ['うとうと'], tags: ['擬音', '夜', '日常', '眠り'], kind: 'onomatope' },
   { display: 'ぱらぱら', reading: 'ぱらぱら', aliases: ['ぱらぱら'], tags: ['擬音', '街', '雨', '紙'], kind: 'onomatope' },
   { display: 'とぼとぼ', reading: 'とぼとぼ', aliases: ['とぼとぼ'], tags: ['擬音', '寂', '夜', '街', '移動'], kind: 'onomatope' },
+  // --- 拡充 (4 モーラ) ---
+  { display: 'ぴかぴか', reading: 'ぴかぴか', aliases: ['ぴかぴか'], tags: ['擬音', '喜', '光'], kind: 'onomatope' },
+  { display: 'ぐっすり', reading: 'ぐっすり', aliases: ['ぐっすり'], tags: ['擬音', '夜', '日常', '眠り'], kind: 'onomatope' },
+  { display: 'ひゅうひゅう', reading: 'ひゅうひゅう', aliases: ['ひゅうひゅう'], tags: ['擬音', '冬', '風', '寒さ'], kind: 'onomatope' },
+  { display: 'ぱちぱち', reading: 'ぱちぱち', aliases: ['ぱちぱち'], tags: ['擬音', '日常', '音', '光'], kind: 'onomatope' },
+  { display: 'ざわざわ', reading: 'ざわざわ', aliases: ['ざわざわ'], tags: ['擬音', '不安', '街', '音'], kind: 'onomatope' },
+  { display: 'しくしく', reading: 'しくしく', aliases: ['しくしく'], tags: ['擬音', '悲', '雨', '夜'], kind: 'onomatope' },
+  { display: 'ぬくぬく', reading: 'ぬくぬく', aliases: ['ぬくぬく'], tags: ['擬音', '優', '温かさ', '部屋'], kind: 'onomatope' },
 ];

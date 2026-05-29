@@ -27,4 +27,16 @@ export const emotionVocab: VocabEntry[] = [
   { display: 'しずけさ', reading: 'しずけさ', aliases: ['静けさ', 'しずけさ', '静か'], tags: ['静けさ', '夜', '部屋'], kind: 'emotion', pos: 'noun' },
   { display: '高鳴り', reading: 'たかなり', aliases: ['高鳴り', 'たかなり', '高鳴る'], tags: ['高揚', '恋', '胸'], kind: 'emotion', pos: 'noun' },
   { display: 'あたたかさ', reading: 'あたたかさ', aliases: ['温かさ', 'あたたかさ', 'あたたかい'], tags: ['温かさ', '安心', '部屋'], kind: 'emotion', pos: 'noun' },
+  // --- 拡充 (4 モーラ) ---
+  { display: 'むなしさ', reading: 'むなしさ', aliases: ['むなしさ', '虚しさ', '空しい'], tags: ['寂', '虚', '夜'], kind: 'emotion', pos: 'noun' },
+  { display: 'ものうさ', reading: 'ものうさ', aliases: ['ものうさ', '物憂さ', '物憂い'], tags: ['倦怠', '夏', '昼'], kind: 'emotion', pos: 'noun' },
+  { display: 'けだるさ', reading: 'けだるさ', aliases: ['けだるさ', '気怠さ', '気だるい'], tags: ['倦怠', '夏', '昼'], kind: 'emotion', pos: 'noun' },
+  { display: 'うらやみ', reading: 'うらやみ', aliases: ['うらやみ', '羨み', '羨ましい'], tags: ['羨', '関係', '街'], kind: 'emotion', pos: 'noun' },
+  { display: 'たのしさ', reading: 'たのしさ', aliases: ['たのしさ', '楽しさ', '楽しい'], tags: ['喜', '若さ', '光'], kind: 'emotion', pos: 'noun' },
+  { display: 'やすらぎ', reading: 'やすらぎ', aliases: ['やすらぎ', '安らぎ', '安らか'], tags: ['安心', '温かさ', '部屋'], kind: 'emotion', pos: 'noun' },
+  { display: '幸福', reading: 'こうふく', aliases: ['幸福', 'こうふく', '幸せ', 'しあわせ'], tags: ['喜', '安心', '光'], kind: 'emotion', pos: 'noun' },
+  { display: '憂鬱', reading: 'ゆううつ', aliases: ['憂鬱', 'ゆううつ', '憂うつ'], tags: ['悲', '不安', '雨'], kind: 'emotion', pos: 'noun' },
+  { display: 'あこがれ', reading: 'あこがれ', aliases: ['あこがれ', '憧れ', '憧れる'], tags: ['愛', '恋', '光'], kind: 'emotion', pos: 'noun' },
+  { display: '思い出', reading: 'おもいで', aliases: ['思い出', 'おもいで', '想い出'], tags: ['懐', '記憶', '時間'], kind: 'emotion', pos: 'noun' },
+  { display: '青春', reading: 'せいしゅん', aliases: ['青春', 'せいしゅん'], tags: ['懐', '若さ', '記憶'], kind: 'emotion', pos: 'noun' },
 ];

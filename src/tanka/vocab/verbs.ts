@@ -65,4 +65,25 @@ export const verbsVocab: VocabEntry[] = [
   { display: '輝く', reading: 'かがやく', aliases: ['輝く', 'かがやく'], tags: ['光', '非人'], kind: 'verb', pos: 'verb-終止' },
   { display: 'かすれる', reading: 'かすれる', aliases: ['かすれる', '掠れる'], tags: ['音', '記憶', '非人'], kind: 'verb', pos: 'verb-終止' },
   { display: '笑む', reading: 'えむ', aliases: ['笑む', 'ほほえむ'], tags: ['心情', '人'], kind: 'verb', pos: 'verb-終止' },
+  // --- 拡充: 心情 (終止, 2 モーラ) ---
+  { display: '恋う', reading: 'こう', aliases: ['恋う', 'こう'], tags: ['心情', '人', '恋'], kind: 'verb', pos: 'verb-終止' },
+  // --- 拡充: 人の動作 (テ形, 3 モーラ) ---
+  { display: '抱いて', reading: 'だいて', aliases: ['抱いて', 'だいて'], tags: ['動作', '人', '恋', '他動'], kind: 'verb', pos: 'verb-テ' },
+  { display: '撫でて', reading: 'なでて', aliases: ['撫でて', 'なでて'], tags: ['動作', '人', '他動'], kind: 'verb', pos: 'verb-テ' },
+  { display: '聞いて', reading: 'きいて', aliases: ['聞いて', 'きいて'], tags: ['動作', '人', '他動'], kind: 'verb', pos: 'verb-テ' },
+  { display: '寄せて', reading: 'よせて', aliases: ['寄せて', 'よせて'], tags: ['動作', '人', '他動'], kind: 'verb', pos: 'verb-テ' },
+  // --- 拡充: 情景 (終止, 3 モーラ, 非人) ---
+  { display: '暮れる', reading: 'くれる', aliases: ['暮れる', 'くれる'], tags: ['変化', '夕方', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: '冷える', reading: 'ひえる', aliases: ['冷える', 'ひえる'], tags: ['変化', '寒さ', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: '凍る', reading: 'こおる', aliases: ['凍る', 'こおる'], tags: ['冬', '変化', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: '揺らぐ', reading: 'ゆらぐ', aliases: ['揺らぐ', 'ゆらぐ'], tags: ['揺れ', '変化', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: '香る', reading: 'かおる', aliases: ['香る', 'かおる'], tags: ['自然', '香り', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: '翳る', reading: 'かげる', aliases: ['翳る', 'かげる'], tags: ['光', '変化', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: '沈む', reading: 'しずむ', aliases: ['沈む', 'しずむ'], tags: ['変化', '夕方', '非人'], kind: 'verb', pos: 'verb-終止' },
+  // --- 拡充: 情景 (終止, 4 モーラ, 非人) ---
+  { display: 'ざわめく', reading: 'ざわめく', aliases: ['ざわめく'], tags: ['音', '街', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: 'きらめく', reading: 'きらめく', aliases: ['きらめく', '煌めく'], tags: ['光', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: 'たゆたう', reading: 'たゆたう', aliases: ['たゆたう', '揺蕩う'], tags: ['揺れ', '水', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: 'ひらめく', reading: 'ひらめく', aliases: ['ひらめく', '閃く'], tags: ['光', '非人'], kind: 'verb', pos: 'verb-終止' },
+  { display: '傾く', reading: 'かたむく', aliases: ['傾く', 'かたむく'], tags: ['変化', '夕方', '非人'], kind: 'verb', pos: 'verb-終止' },
 ];

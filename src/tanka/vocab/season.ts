@@ -43,4 +43,14 @@ export const seasonVocab: VocabEntry[] = [
   { display: '木枯し', reading: 'こがらし', aliases: ['木枯し', '木枯らし', 'こがらし'], tags: ['冬', '風', '寒さ'], kind: 'season', pos: 'noun' },
   { display: '大寒', reading: 'だいかん', aliases: ['大寒', 'だいかん'], tags: ['冬', '寒さ', '夜'], kind: 'season', pos: 'noun' },
   { display: '風花', reading: 'かざはな', aliases: ['風花', 'かざはな'], tags: ['冬', '雪', '舞い'], kind: 'season', pos: 'noun' },
+  // --- 拡充 (4 モーラ) ---
+  { display: 'たんぽぽ', reading: 'たんぽぽ', aliases: ['たんぽぽ', '蒲公英'], tags: ['春', '花', '黄色'], kind: 'season', pos: 'noun' },
+  { display: '春の夜', reading: 'はるのよ', aliases: ['春の夜', 'はるのよ'], tags: ['春', '夜', '時間'], kind: 'season', pos: 'noun' },
+  { display: '向日葵', reading: 'ひまわり', aliases: ['向日葵', 'ひまわり', 'ヒマワリ'], tags: ['夏', '花', '黄色'], kind: 'season', pos: 'noun' },
+  { display: '青空', reading: 'あおぞら', aliases: ['青空', 'あおぞら'], tags: ['夏', '空', '光'], kind: 'season', pos: 'noun' },
+  { display: '夕凪', reading: 'ゆうなぎ', aliases: ['夕凪', 'ゆうなぎ'], tags: ['夏', '海', '夕方'], kind: 'season', pos: 'noun' },
+  { display: '秋風', reading: 'あきかぜ', aliases: ['秋風', 'あきかぜ'], tags: ['秋', '風', '寂しさ'], kind: 'season', pos: 'noun' },
+  { display: '紅葉', reading: 'もみじば', aliases: ['紅葉', 'もみじば', 'もみじ'], tags: ['秋', '葉', '色'], kind: 'season', pos: 'noun' },
+  { display: '冬の夜', reading: 'ふゆのよ', aliases: ['冬の夜', 'ふゆのよ'], tags: ['冬', '夜', '寒さ'], kind: 'season', pos: 'noun' },
+  { display: '初雪', reading: 'はつゆき', aliases: ['初雪', 'はつゆき'], tags: ['冬', '雪', '白'], kind: 'season', pos: 'noun' },
 ];
