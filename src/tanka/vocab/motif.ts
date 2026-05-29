@@ -17,7 +17,7 @@ export const motifVocab: VocabEntry[] = [
   { display: 'わたし', reading: 'わたし', aliases: ['私', 'わたし', '自分'], tags: ['人', '自分', '内面'], kind: 'motif', pos: 'noun' },
   { display: '誰か', reading: 'だれか', aliases: ['誰か', 'だれか'], tags: ['人', '曖昧', '関係'], kind: 'motif', pos: 'noun' },
   { display: '返信', reading: 'へんしん', aliases: ['返信', 'へんしん', '返事'], tags: ['関係', 'スマホ', '待つ'], kind: 'motif', pos: 'noun' },
-  { display: 'スマホ', reading: 'すまほ', aliases: ['スマホ', '携帯', 'すまほ'], tags: ['街', '日常', '光', '場面'], kind: 'motif', pos: 'noun' },
+  { display: 'スマホ', reading: 'すまほ', aliases: ['スマホ', '携帯', 'すまほ'], tags: ['街', '日常', '光', '場面'], kind: 'motif', pos: 'noun', weight: 0.3 },
   { display: '改札', reading: 'かいさつ', aliases: ['改札', 'かいさつ'], tags: ['街', '移動', '別れ', '場面'], kind: 'motif', pos: 'noun' },
   { display: 'ベランダ', reading: 'べらんだ', aliases: ['ベランダ', 'べらんだ'], tags: ['部屋', '空', '日常', '場面'], kind: 'motif', pos: 'noun' },
   { display: '台所', reading: 'だいどこ', aliases: ['台所', 'キッチン', 'だいどこ'], tags: ['部屋', '食べ物', '家族', '場面'], kind: 'motif', pos: 'noun' },

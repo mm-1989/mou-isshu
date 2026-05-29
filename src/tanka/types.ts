@@ -8,6 +8,8 @@ export interface VocabEntry {
   tags: string[];
   kind: VocabKind;
   pos?: string;
+  /** 抽選の相対重み (省略時 1)。 1 未満で出現を抑え、 1 超で出やすくする。 */
+  weight?: number;
 }
 
 export interface Slot {

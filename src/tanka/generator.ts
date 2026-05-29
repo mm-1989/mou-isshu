@@ -46,8 +46,20 @@ function applyRecency(
   return fresh.length > 0 ? fresh : arr;
 }
 
+/** weight (省略時 1) を反映した重み付きランダム抽選。 */
+function pickWeighted(pool: VocabEntry[], rng: () => number): VocabEntry {
+  let total = 0;
+  for (const e of pool) total += e.weight ?? 1;
+  let r = rng() * total;
+  for (const e of pool) {
+    r -= e.weight ?? 1;
+    if (r < 0) return e;
+  }
+  return pool[pool.length - 1];
+}
+
 /**
- * エントリ抽選。 順序は taste 優先 → 既出回避 → ランダム。
+ * エントリ抽選。 順序は taste 優先 → 既出回避 → weight 付きランダム。
  * usePref が true のときだけ preferredTags でタグ一致を優先する。
  */
 function pickEntry(
@@ -64,7 +76,7 @@ function pickEntry(
     if (matched.length > 0) pool = matched;
   }
   pool = applyRecency(pool, recent);
-  return pool[Math.floor(rng() * pool.length)];
+  return pickWeighted(pool, rng);
 }
 
 function matchesSlotTags(entry: VocabEntry, tags?: string[]): boolean {
