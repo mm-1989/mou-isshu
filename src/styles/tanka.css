@@ -210,6 +210,10 @@
   gap: 1rem;
   margin-top: 2.5rem;
 }
+.taste-actions .compose-button {
+  white-space: nowrap;
+  max-width: 100%;
+}
 
 /* === 短歌表示画面 === */
 .taste-recap {
@@ -260,13 +264,15 @@
   white-space: nowrap;
 }
 @media (max-width: 500px) {
-  .tanka-actions .compose-button {
+  .tanka-actions .compose-button,
+  .taste-actions .compose-button {
     letter-spacing: 0.2em;
     padding-left: 1.2rem;
     padding-right: 1.2rem;
     font-size: 1.05rem;
   }
-  .tanka-actions .compose-button:hover {
+  .tanka-actions .compose-button:hover,
+  .taste-actions .compose-button:hover {
     letter-spacing: 0.3em;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
